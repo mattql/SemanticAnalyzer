@@ -1,0 +1,31 @@
+Class: SpicyPizza
+
+EquivalentTo:
+Pizza
+and (hasTopping some (hasSpiciness value Hot))
+
+Class: VegetarianPizza
+
+    EquivalentTo:
+        Pizza
+         and (hasTopping only 
+            (CheeseTopping or VegetableTopping))
+
+Class: Customer
+
+    EquivalentTo:
+        Person
+         and (purchasedPizza some Pizza)
+         and (hasPhone some xsd:string)
+    
+    Individuals:
+        Customer1,
+        Customer10,
+        Customer2,
+        Customer3,
+        Customer4,
+        Customer5,
+        Customer6,
+        Customer7,
+        Customer8,
+        Customer9

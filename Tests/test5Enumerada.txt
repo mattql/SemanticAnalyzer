@@ -1,0 +1,14 @@
+Class: Spiciness
+
+    EquivalentTo:
+        {Hot1 , Medium2 , Mild3}
+
+Class: Week
+
+    EquivalentTo:
+        {Monday1, Tuesday2, Wednesday3, Thursday4, Friday5, Saturday6, Sunday7}
+
+Class: One
+
+    EquivalentTo:
+        {Um1}

@@ -1,0 +1,12 @@
+Class: Spiciness
+
+    EquivalentTo: Hot or Medium or Mild
+
+Class: SpicinessDois
+
+    EquivalentTo: Hot
+
+Class: Sauce
+
+    EquivalentTo: Ketchup or Mayo or Mustard or Shoyu
+

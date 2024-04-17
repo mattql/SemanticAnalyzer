@@ -1,0 +1,58 @@
+Class: MargheritaPizza
+
+SubClassOf:
+NamedPizza,
+hasTopping some MozzarellaTopping,
+hasTopping only (MozzarellaTopping)
+
+Class: MargheritaPizza
+
+SubClassOf:
+NamedPizza,
+hasTopping some MozzarellaTopping,
+hasTopping some TomatoTopping,
+hasTopping only
+(MozzarellaTopping or TomatoTopping)
+
+Class: MargheritaPizzaDois
+
+SubClassOf:
+NamedPizza,
+hasTopping some MozzarellaTopping,
+hasTopping some TomatoTopping,
+hasTopping some OnionTopping,
+hasTopping only (MozzarellaTopping or TomatoTopping or OnionTopping)
+
+Class: SohoPizza
+   
+    SubClassOf: 
+        NamedPizza,
+        hasTopping some MozzarellaTopping,
+        hasTopping some OliveTopping,
+        hasTopping some ParmesanTopping,
+        hasTopping some TomatoTopping,
+        hasTopping only 
+            (MozzarellaTopping or OliveTopping or ParmesanTopping or TomatoTopping)
+    
+    DisjointClasses:
+        AmericanaHotPizza, AmericanaPizza, MargheritaPizza, SohoPizza
+    
+    Individuals:
+        SohoPizza1,
+        SohoPizza2
+
+Class: MargheritaPizza
+   
+    SubClassOf:
+        NamedPizza,
+        hasTopping some MozzarellaTopping,
+        hasTopping some TomatoTopping,
+        hasTopping only 
+            (MozzarellaTopping or TomatoTopping)
+    
+    DisjointClasses:
+        AmericanaHotPizza, AmericanaPizza, MargheritaPizza, SohoPizza
+    
+    Individuals: 
+        MargheritaPizza1,
+        MargheritaPizza2
