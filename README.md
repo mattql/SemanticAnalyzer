@@ -29,6 +29,16 @@
 -Observação:
     Ao executar o projeto com os comandos acima, caso apareça no terminal o seguinte erro:
     bash: ./syntAnalyzer: Permissão negada
-
+    
     Execute o comando abaixo no terminal e depois tente executar o projeto novamente:
     chmod +x syntAnalyzer
+
+-Saída do terminal:
+    Os 6 tipos de classes estão organizadas da seguinte maneira:
+    Classe primitiva: Número 1 e cor Verde
+    Classe Definida: Número 2 e cor Azul
+    Classe com axioma de fechamento: Número 3 e cor Amarelo
+    Classe com descrições aninhadas: Número 4 e cor Magenta
+    Classe Enumerada: Número 5 e cor Ciano
+    Classe Coberta: Número 6 e cor Roxo
+    Erros são de cor Vermelho

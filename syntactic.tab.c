@@ -73,19 +73,27 @@
 #include <cstring>
 using namespace std;
 
+extern int yylineno; 
 extern char * yytext;
-char vetorClasses[400];
-int isClass = 0;
-bool errorOccurred = false; // Variável para indicar se ocorreu um erro
+char vetorClasses[400]; // Vetor para armazenar nomes de Classe
+int isClass = 0; // Saber se é ou não é classe
+int errosSemanticos = 0; // Total de erros semânticos
 
 int yylex(void);
 int yyparse(void);
 void yyerror(const char *);
 
-#define RED     "\x1b[31m"
+// Constantes de cores para saída do terminal
+#define RED      "\x1b[31m"
+#define GREEN    "\x1b[32m"
+#define BLUE     "\x1b[34m"
+#define YELLOW   "\x1b[33m"
+#define MAGENTA  "\x1b[35m"
+#define CYAN     "\x1b[36m"
+#define PURPLE   "\x1b[38;5;141m"
 #define NOCOLOR  "\x1b[0m"
 
-#line 89 "syntactic.tab.c"
+#line 97 "syntactic.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -552,13 +560,13 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    25,    25,    26,    29,    32,    33,    34,    35,    36,
-      37,    38,    41,    42,    43,    44,    45,    46,    49,    52,
-      53,    54,    55,    56,    57,    58,    61,    64,    65,    68,
-      71,    72,    75,    76,    79,    82,    83,    84,    87,    88,
-      91,    92,    93,    97,    98,    99,   100,   103,   104,   107,
-     115,   118,   118,   121,   121,   121,   121,   124,   124,   127,
-     130,   131,   134,   137,   138
+       0,    35,    35,    36,    40,    44,    45,    46,    47,    48,
+      49,    50,    54,    55,    56,    57,    58,    59,    64,    68,
+      69,    70,    71,    72,    73,    74,    78,    82,    83,    87,
+      91,    92,    96,    97,   102,   107,   108,   109,   113,   114,
+     118,   119,   120,   126,   127,   128,   129,   133,   134,   140,
+     149,   152,   152,   156,   156,   156,   156,   160,   160,   164,
+     168,   169,   173,   177,   178
 };
 #endif
 
@@ -633,11 +641,11 @@ static const yytype_int16 yypact[] =
 static const yytype_int8 yydefact[] =
 {
        0,     0,     0,    11,     4,     1,    11,     0,     0,     0,
-       0,     2,     5,    12,    13,    14,     6,    32,     7,     8,
+       0,     2,     5,    12,    14,    15,     6,    32,     7,     8,
       47,     9,    10,     3,    63,     0,    34,    62,    30,    29,
-      22,     0,    18,    40,    27,    26,    15,    16,    33,    48,
+      22,     0,    18,    40,    27,    26,    16,    17,    33,    48,
        0,    60,     0,     0,     0,     0,     0,     0,    41,     0,
-      17,     0,    59,    64,    31,     0,     0,    23,    24,    42,
+      13,     0,    59,    64,    31,     0,     0,    23,    24,    42,
       28,     0,    61,     0,     0,     0,    53,    55,    38,    39,
       56,    54,     0,     0,     0,    21,    22,    19,     0,     0,
        0,     0,    49,     0,     0,     0,    36,     0,     0,    57,
@@ -749,7 +757,7 @@ static const yytype_int8 yyr1[] =
 static const yytype_int8 yyr2[] =
 {
        0,     2,     2,     3,     2,     1,     1,     1,     1,     1,
-       1,     0,     1,     1,     1,     2,     2,     3,     2,     5,
+       1,     0,     1,     3,     1,     1,     2,     2,     2,     5,
        7,     5,     1,     3,     3,     8,     2,     1,     3,     2,
        1,     3,     1,     2,     2,    11,     7,     8,     1,     1,
        2,     3,     4,    11,    17,    23,    29,     1,     2,     7,
@@ -1218,49 +1226,49 @@ yyreduce:
   switch (yyn)
     {
   case 4: /* class: CLASS IDCLASSE  */
-#line 29 "syntactic.y"
+#line 40 "syntactic.y"
                       {isClass = 0; strcpy(vetorClasses, yytext);}
-#line 1224 "syntactic.tab.c"
+#line 1232 "syntactic.tab.c"
     break;
 
   case 5: /* options: primitiva  */
-#line 32 "syntactic.y"
-                   {cout << "Classe Primitiva. \n";}
-#line 1230 "syntactic.tab.c"
+#line 44 "syntactic.y"
+                   {cout << GREEN   << "1️⃣  Classe Primitiva \n";}
+#line 1238 "syntactic.tab.c"
     break;
 
   case 6: /* options: definida  */
-#line 33 "syntactic.y"
-                   {cout << "Classe Definida. \n";}
-#line 1236 "syntactic.tab.c"
+#line 45 "syntactic.y"
+                       {cout << BLUE    << "2️⃣  Classe Definida \n";}
+#line 1244 "syntactic.tab.c"
     break;
 
   case 7: /* options: axioma  */
-#line 34 "syntactic.y"
-                 {cout << "Classe com axioma de fechamento. \n";}
-#line 1242 "syntactic.tab.c"
+#line 46 "syntactic.y"
+                       {cout << YELLOW  << "3️⃣  Classe com axioma de fechamento \n";}
+#line 1250 "syntactic.tab.c"
     break;
 
   case 8: /* options: aninhada  */
-#line 35 "syntactic.y"
-                   {cout << "Classe com descrições aninhadas. \n";}
-#line 1248 "syntactic.tab.c"
+#line 47 "syntactic.y"
+                       {cout << MAGENTA << "4️⃣  Classe com descrições aninhadas \n";}
+#line 1256 "syntactic.tab.c"
     break;
 
   case 9: /* options: enumerada  */
-#line 36 "syntactic.y"
-                    {cout << "Classe Enumerada. \n";}
-#line 1254 "syntactic.tab.c"
+#line 48 "syntactic.y"
+                       {cout << CYAN    << "5️⃣  Classe Enumerada \n";}
+#line 1262 "syntactic.tab.c"
     break;
 
   case 10: /* options: coberta  */
-#line 37 "syntactic.y"
-                  {cout << "Classe Coberta. \n";}
-#line 1260 "syntactic.tab.c"
+#line 49 "syntactic.y"
+                       {cout << PURPLE  << "6️⃣  Classe Coberta \n";}
+#line 1268 "syntactic.tab.c"
     break;
 
 
-#line 1264 "syntactic.tab.c"
+#line 1272 "syntactic.tab.c"
 
       default: break;
     }
@@ -1453,7 +1461,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 141 "syntactic.y"
+#line 181 "syntactic.y"
 
 
 /* definido pelo analisador léxico */
@@ -1480,10 +1488,7 @@ int main(int argc, char ** argv)
 }
 
 void yyerror(const char * s)
-{
-	/* variáveis definidas no analisador léxico */
-	extern int yylineno;     
-
+{  
 	if(isClass == 0){
 	/* mensagem de erro exibe o símbolo que causou erro e o número da linha */
 	cout << RED <<"-----------------------------------------------------------------\n";
