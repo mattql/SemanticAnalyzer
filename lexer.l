@@ -5,6 +5,7 @@
 using namespace std;
 %}
 
+%option yylineno
 %option noyywrap
 delim       [ \t\n]
 brancos     {delim}+

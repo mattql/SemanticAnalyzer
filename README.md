@@ -25,3 +25,10 @@
     ./syntAnalyzer < Tests/test5Enumerada.txt
     ./syntAnalyzer < Tests/test6Coberta.txt
     ./syntAnalyzer < Tests/testeDados.txt
+
+-Observação:
+    Ao executar o projeto com os comandos acima, caso apareça no terminal o seguinte erro:
+    bash: ./syntAnalyzer: Permissão negada
+
+    Execute o comando abaixo no terminal e depois tente executar o projeto novamente:
+    chmod +x syntAnalyzer

@@ -1,10 +1,19 @@
 %{
 #include <iostream>
+#include <cstring>
 using namespace std;
+
+extern char * yytext;
+char vetorClasses[400];
+int isClass = 0;
+bool errorOccurred = false; // Variável para indicar se ocorreu um erro
 
 int yylex(void);
 int yyparse(void);
 void yyerror(const char *);
+
+#define RED     "\x1b[31m"
+#define NOCOLOR  "\x1b[0m"
 %}
 
 %token SOME ALL VALUE MIN MAX EXACTLY THAT NOT AND OR ONLY
@@ -13,8 +22,11 @@ IDCLASSE IDPROP SYMBOL INDIVIDNAME DATATYPE CARD
 
 %%
 
-start: CLASS options
-	| start CLASS options
+start: class options
+	| start class options
+	;
+
+class: CLASS IDCLASSE {isClass = 0; strcpy(vetorClasses, yytext);}
 	;
 
 options: primitiva {cout << "Classe Primitiva. \n";}
@@ -23,14 +35,15 @@ options: primitiva {cout << "Classe Primitiva. \n";}
 	| aninhada {cout << "Classe com descrições aninhadas. \n";}
 	| enumerada {cout << "Classe Enumerada. \n";}
 	| coberta {cout << "Classe Coberta. \n";}
+	|
 	;
 
-primitiva: IDCLASSE subclassof
-	| IDCLASSE disjointclasses
-	| IDCLASSE individuals
-	| IDCLASSE subclassof disjointclasses
-	| IDCLASSE subclassof individuals
-	| IDCLASSE subclassof disjointclasses individuals
+primitiva: subclassof
+	| disjointclasses
+	| individuals
+	| subclassof disjointclasses
+	| subclassof individuals
+	| subclassof disjointclasses individuals
 	;
 
 subclassof: SUBCLASSOF subclassofDescript
@@ -59,8 +72,8 @@ individualsDescript: INDIVIDNAME
 	| individualsDescript SYMBOL INDIVIDNAME
 	;
 
-definida: IDCLASSE equivalenttoD
-	| IDCLASSE equivalenttoD individuals
+definida: equivalenttoD
+	| equivalenttoD individuals
 	;
 
 equivalenttoD: EQUIVALENTTO equivalenttoDescript
@@ -75,9 +88,9 @@ minmax: MIN
 	| MAX
 	;
 
-axioma: IDCLASSE SUBCLASSOF subclassofAxiomaDescript
-	| IDCLASSE SUBCLASSOF subclassofAxiomaDescript disjointclasses
-	| IDCLASSE SUBCLASSOF subclassofAxiomaDescript disjointclasses individuals
+axioma: SUBCLASSOF subclassofAxiomaDescript
+	| SUBCLASSOF subclassofAxiomaDescript disjointclasses
+	| SUBCLASSOF subclassofAxiomaDescript disjointclasses individuals
 	;
 
 // 
@@ -87,8 +100,8 @@ subclassofAxiomaDescript: IDCLASSE SYMBOL IDPROP SOME IDCLASSE SYMBOL IDPROP ONL
 	| IDCLASSE SYMBOL IDPROP SOME IDCLASSE SYMBOL IDPROP SOME IDCLASSE SYMBOL IDPROP SOME IDCLASSE SYMBOL IDPROP SOME IDCLASSE SYMBOL IDPROP ONLY SYMBOL IDCLASSE OR IDCLASSE OR IDCLASSE OR IDCLASSE SYMBOL /* quatro */
 	;
 
-aninhada: IDCLASSE equivalenttoA
-	| IDCLASSE equivalenttoA individuals
+aninhada: equivalenttoA
+	| equivalenttoA individuals
 	;
 
 equivalenttoA: EQUIVALENTTO IDCLASSE AND SYMBOL IDPROP someOnlyValueOr equivalenttoAnin
@@ -111,14 +124,14 @@ someOnlyValueOr: SOME | ONLY | VALUE | OR
 classOrProp: IDCLASSE | IDPROP
 	;
 
-enumerada: IDCLASSE EQUIVALENTTO SYMBOL enumInstances SYMBOL
+enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL
 	;
 
 enumInstances: INDIVIDNAME
 	| enumInstances SYMBOL INDIVIDNAME
 	;
 
-coberta: IDCLASSE EQUIVALENTTO cobertaDescript
+coberta: EQUIVALENTTO cobertaDescript
 	;
 
 cobertaDescript: IDCLASSE
@@ -153,9 +166,16 @@ int main(int argc, char ** argv)
 void yyerror(const char * s)
 {
 	/* variáveis definidas no analisador léxico */
-	extern int yylineno;    
-	extern char * yytext;   
+	extern int yylineno;     
 
+	if(isClass == 0){
 	/* mensagem de erro exibe o símbolo que causou erro e o número da linha */
-    cout << "Erro sintático: símbolo \"" << yytext << "\" (linha " << yylineno << ")\n";
+	cout << RED <<"-----------------------------------------------------------------\n";
+    cout << RED <<"🔴 Erro sintático: símbolo \"" << yytext << "\" (linha " << yylineno << ") |📄 Classe: " << vetorClasses << "|\n";
+	cout << RED <<"-----------------------------------------------------------------\n";
+	cout << NOCOLOR;
+	isClass = 1;
+	}
+
+	yyparse();
 }
