@@ -86,23 +86,26 @@ int total_axioma = 0;
 int total_aninhada = 0;
 int total_enumerada = 0;
 int total_coberta = 0;
+char codigoErro;
 
 int yylex(void);
 int yyparse(void);
 void yyerror(const char *);
+void semanticError(char codigoErro, int yylineno, char * vetorClasses);
 
 // Constantes de cores para saída do terminal
-#define RED      "\x1b[38;5;196m"
-#define GREEN    "\x1b[38;5;46m"
-#define BLUE     "\x1b[38;5;12m"
-#define YELLOW   "\x1b[38;5;226m"
-#define MAGENTA  "\x1b[38;5;165m"
-#define CYAN     "\x1b[36m"
-#define PURPLE   "\x1b[38;5;141m"
-#define ORANGE   "\x1b[38;5;214m"
-#define NOCOLOR  "\x1b[0m"
+#define RED     "\x1b[38;5;196m"
+#define GREEN   "\x1b[38;5;46m"
+#define BLUE    "\x1b[38;5;12m"
+#define YELLOW  "\x1b[38;5;226m"
+#define MAGENTA "\x1b[38;5;165m"
+#define CYAN    "\x1b[36m"
+#define PURPLE  "\x1b[38;5;141m"
+#define ORANGE  "\x1b[38;5;214m"
+#define WHITE   "\x1b[37m"
+#define NOCOLOR "\x1b[0m"
 
-#line 106 "syntactic.tab.c"
+#line 109 "syntactic.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -569,15 +572,15 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    44,    44,    45,    49,    53,    54,    55,    56,    57,
-      58,    59,    65,    66,    68,    69,    70,    71,    75,    79,
-      80,    81,    82,    83,    84,    85,    89,    93,    94,    98,
-     102,   103,   107,   108,   110,   111,   112,   117,   122,   123,
-     124,   128,   129,   133,   134,   136,   137,   143,   144,   145,
-     146,   155,   156,   158,   159,   165,   174,   177,   177,   181,
-     181,   181,   181,   185,   185,   189,   190,   191,   192,   194,
-     195,   199,   200,   204,   205,   206,   207,   209,   210,   214,
-     215
+       0,    47,    47,    48,    52,    56,    57,    58,    59,    60,
+      61,    62,    66,    67,    69,    70,    71,    72,    76,    80,
+      81,    82,    83,    84,    85,    86,    90,    94,    95,    99,
+     103,   104,   108,   109,   111,   112,   113,   118,   123,   124,
+     125,   129,   130,   134,   135,   137,   138,   144,   145,   146,
+     147,   156,   157,   159,   160,   166,   175,   178,   178,   182,
+     182,   182,   182,   186,   186,   190,   191,   192,   193,   195,
+     196,   200,   201,   205,   206,   207,   208,   210,   211,   215,
+     216
 };
 #endif
 
@@ -1255,199 +1258,199 @@ yyreduce:
   switch (yyn)
     {
   case 4: /* class: CLASS IDCLASSE  */
-#line 49 "syntactic.y"
+#line 52 "syntactic.y"
                       {isClass = 0; strcpy(vetorClasses, yytext);}
-#line 1261 "syntactic.tab.c"
+#line 1264 "syntactic.tab.c"
     break;
 
   case 12: /* primitiva: subclassof  */
-#line 65 "syntactic.y"
+#line 66 "syntactic.y"
                       {cout << GREEN << "1️⃣  Classe Primitiva ⭢ " << vetorClasses << "\n"; total_primitiva++;}
-#line 1267 "syntactic.tab.c"
+#line 1270 "syntactic.tab.c"
     break;
 
   case 13: /* primitiva: subclassof disjointclasses individuals  */
-#line 66 "syntactic.y"
+#line 67 "syntactic.y"
                                                  {cout << GREEN << "1️⃣  Classe Primitiva ⭢ " << vetorClasses << "\n"; total_primitiva++;}
-#line 1273 "syntactic.tab.c"
+#line 1276 "syntactic.tab.c"
     break;
 
   case 14: /* primitiva: disjointclasses  */
-#line 68 "syntactic.y"
-                          {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | DisjointClasses não pode existir sozinha \n❗ É esperado SubclassOf antes e Individuals depois ❗\n"; errosSemanticos++;}
-#line 1279 "syntactic.tab.c"
+#line 69 "syntactic.y"
+                          {semanticError('C', yylineno, vetorClasses); errosSemanticos++;}
+#line 1282 "syntactic.tab.c"
     break;
 
   case 15: /* primitiva: individuals  */
-#line 69 "syntactic.y"
-                      {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | Individuals não pode existir sozinho \n❗ É esperado DisjointClasses antes ❗\n"; errosSemanticos++;}
-#line 1285 "syntactic.tab.c"
+#line 70 "syntactic.y"
+                      {semanticError('D', yylineno, vetorClasses); errosSemanticos++;}
+#line 1288 "syntactic.tab.c"
     break;
 
   case 16: /* primitiva: subclassof disjointclasses  */
-#line 70 "syntactic.y"
-                                     {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | DisjointClasses deve preceder Individuals \n❗ É esperado Individuals depois ❗\n"; errosSemanticos++;}
-#line 1291 "syntactic.tab.c"
+#line 71 "syntactic.y"
+                                     {semanticError('A', yylineno, vetorClasses); errosSemanticos++;}
+#line 1294 "syntactic.tab.c"
     break;
 
   case 17: /* primitiva: subclassof individuals  */
-#line 71 "syntactic.y"
-                                 {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | Individuals deve suceder DisjointClasses\n❗ É esperado DisjointClasses antes ❗\n"; errosSemanticos++;}
-#line 1297 "syntactic.tab.c"
+#line 72 "syntactic.y"
+                                 {semanticError('B', yylineno, vetorClasses); errosSemanticos++;}
+#line 1300 "syntactic.tab.c"
     break;
 
   case 32: /* definida: equivalenttoD  */
-#line 107 "syntactic.y"
+#line 108 "syntactic.y"
                         {cout << BLUE << "2️⃣  Classe Definida ⭢ " << vetorClasses << "\n"; total_definida++;}
-#line 1303 "syntactic.tab.c"
+#line 1306 "syntactic.tab.c"
     break;
 
   case 33: /* definida: equivalenttoD disjointclasses individuals  */
-#line 108 "syntactic.y"
+#line 109 "syntactic.y"
                                                     {cout << BLUE << "2️⃣  Classe Definida ⭢ " << vetorClasses << "\n"; total_definida++;}
-#line 1309 "syntactic.tab.c"
+#line 1312 "syntactic.tab.c"
     break;
 
   case 34: /* definida: equivalenttoD disjointclasses  */
-#line 110 "syntactic.y"
-                                        {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | DisjointClasses não pode existir sozinha \n❗ É esperado SubclassOf antes e Individuals depois ❗\n"; errosSemanticos++;}
-#line 1315 "syntactic.tab.c"
+#line 111 "syntactic.y"
+                                        {semanticError('A', yylineno, vetorClasses); errosSemanticos++;}
+#line 1318 "syntactic.tab.c"
     break;
 
   case 35: /* definida: equivalenttoD individuals  */
-#line 111 "syntactic.y"
-                                    {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | Individuals deve suceder DisjointClasses\n❗ É esperado DisjointClasses antes ❗\n"; errosSemanticos++;}
-#line 1321 "syntactic.tab.c"
+#line 112 "syntactic.y"
+                                    {semanticError('B', yylineno, vetorClasses); errosSemanticos++;}
+#line 1324 "syntactic.tab.c"
     break;
 
   case 36: /* definida: subclassof equivalenttoD  */
-#line 112 "syntactic.y"
-                                   {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | EquivalentTo não deve suceder SubclassOf\n❗ É esperado DisjointClasses e Individuals após SubclassOf ❗\n"; errosSemanticos++;}
-#line 1327 "syntactic.tab.c"
+#line 113 "syntactic.y"
+                                   {semanticError('E', yylineno, vetorClasses); errosSemanticos++;}
+#line 1330 "syntactic.tab.c"
     break;
 
   case 43: /* axioma: SUBCLASSOF subclassofAxiomaDescript  */
-#line 133 "syntactic.y"
+#line 134 "syntactic.y"
                                             {cout << YELLOW << "3️⃣ 1️⃣  Classe com axioma de fechamento e Primitiva ⭢ " << vetorClasses << "\n"; total_axioma++;}
-#line 1333 "syntactic.tab.c"
+#line 1336 "syntactic.tab.c"
     break;
 
   case 44: /* axioma: SUBCLASSOF subclassofAxiomaDescript disjointclasses individuals  */
-#line 134 "syntactic.y"
+#line 135 "syntactic.y"
                                                                           {cout << YELLOW << "3️⃣ 1️⃣  Classe com axioma de fechamento e Primitiva ⭢ " << vetorClasses << "\n"; total_axioma++;}
-#line 1339 "syntactic.tab.c"
+#line 1342 "syntactic.tab.c"
     break;
 
   case 45: /* axioma: SUBCLASSOF subclassofAxiomaDescript disjointclasses  */
-#line 136 "syntactic.y"
-                                                              {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | DisjointClasses deve preceder Individuals \n❗ É esperado Individuals depois ❗\n"; errosSemanticos++;}
-#line 1345 "syntactic.tab.c"
+#line 137 "syntactic.y"
+                                                              {semanticError('A', yylineno, vetorClasses); errosSemanticos++;}
+#line 1348 "syntactic.tab.c"
     break;
 
   case 46: /* axioma: SUBCLASSOF subclassofAxiomaDescript individuals  */
-#line 137 "syntactic.y"
-                                                          {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | Individuals deve suceder DisjointClasses\n❗ É esperado DisjointClasses antes ❗\n"; errosSemanticos++;}
-#line 1351 "syntactic.tab.c"
+#line 138 "syntactic.y"
+                                                          {semanticError('B', yylineno, vetorClasses); errosSemanticos++;}
+#line 1354 "syntactic.tab.c"
     break;
 
   case 51: /* aninhada: equivalenttoA  */
-#line 155 "syntactic.y"
+#line 156 "syntactic.y"
                         {cout << MAGENTA << "4️⃣ 2️⃣  Classe com descrições aninhadas e Definida ⭢ " << vetorClasses << "\n"; total_aninhada++;}
-#line 1357 "syntactic.tab.c"
+#line 1360 "syntactic.tab.c"
     break;
 
   case 52: /* aninhada: equivalenttoA disjointclasses individuals  */
-#line 156 "syntactic.y"
+#line 157 "syntactic.y"
                                                     {cout << MAGENTA << "4️⃣ 2️⃣  Classe com descrições aninhadas e Definida ⭢ " << vetorClasses << "\n"; total_aninhada++;}
-#line 1363 "syntactic.tab.c"
+#line 1366 "syntactic.tab.c"
     break;
 
   case 53: /* aninhada: equivalenttoA disjointclasses  */
-#line 158 "syntactic.y"
-                                        {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | DisjointClasses não pode existir sozinha \n❗ É esperado SubclassOf antes e Individuals depois ❗\n"; errosSemanticos++;}
-#line 1369 "syntactic.tab.c"
+#line 159 "syntactic.y"
+                                        {semanticError('A', yylineno, vetorClasses); errosSemanticos++;}
+#line 1372 "syntactic.tab.c"
     break;
 
   case 54: /* aninhada: equivalenttoA individuals  */
-#line 159 "syntactic.y"
-                                    {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | Individuals não pode existir sozinho \n❗ É esperado DisjointClasses antes ❗\n"; errosSemanticos++;}
-#line 1375 "syntactic.tab.c"
+#line 160 "syntactic.y"
+                                    {semanticError('B', yylineno, vetorClasses); errosSemanticos++;}
+#line 1378 "syntactic.tab.c"
     break;
 
   case 65: /* enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL  */
-#line 189 "syntactic.y"
+#line 190 "syntactic.y"
                                                     {cout << CYAN << "5️⃣ 2️⃣  Classe Enumerada e Definida ⭢ " << vetorClasses << "\n"; total_enumerada++;}
-#line 1381 "syntactic.tab.c"
+#line 1384 "syntactic.tab.c"
     break;
 
   case 66: /* enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL subclassof  */
-#line 190 "syntactic.y"
+#line 191 "syntactic.y"
                                                               {cout << CYAN << "5️⃣ 2️⃣  Classe Enumerada e Definida ⭢ " << vetorClasses << "\n"; total_enumerada++;}
-#line 1387 "syntactic.tab.c"
+#line 1390 "syntactic.tab.c"
     break;
 
   case 67: /* enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL subclassof disjointclasses individuals  */
-#line 191 "syntactic.y"
+#line 192 "syntactic.y"
                                                                                           {cout << CYAN << "5️⃣ 2️⃣  Classe Enumerada e Definida ⭢ " << vetorClasses << "\n"; total_enumerada++;}
-#line 1393 "syntactic.tab.c"
+#line 1396 "syntactic.tab.c"
     break;
 
   case 68: /* enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL disjointclasses individuals  */
-#line 192 "syntactic.y"
+#line 193 "syntactic.y"
                                                                                {cout << CYAN << "5️⃣ 2️⃣  Classe Enumerada e Definida ⭢ " << vetorClasses << "\n"; total_enumerada++;}
-#line 1399 "syntactic.tab.c"
+#line 1402 "syntactic.tab.c"
     break;
 
   case 69: /* enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL disjointclasses  */
-#line 194 "syntactic.y"
-                                                                   {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | DisjointClasses não pode existir sozinha \n❗ É esperado SubclassOf antes e Individuals depois ❗\n"; errosSemanticos++;}
-#line 1405 "syntactic.tab.c"
+#line 195 "syntactic.y"
+                                                                   {semanticError('A', yylineno, vetorClasses); errosSemanticos++;}
+#line 1408 "syntactic.tab.c"
     break;
 
   case 70: /* enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL individuals  */
-#line 195 "syntactic.y"
-                                                               {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | Individuals não pode existir sozinho \n❗ É esperado DisjointClasses antes ❗\n"; errosSemanticos++;}
-#line 1411 "syntactic.tab.c"
+#line 196 "syntactic.y"
+                                                               {semanticError('B', yylineno, vetorClasses); errosSemanticos++;}
+#line 1414 "syntactic.tab.c"
     break;
 
   case 73: /* coberta: EQUIVALENTTO cobertaDescript  */
-#line 204 "syntactic.y"
+#line 205 "syntactic.y"
                                       {cout << PURPLE  << "6️⃣  2️⃣  Classe Coberta e Definida ⭢ " << vetorClasses << "\n"; total_coberta++;}
-#line 1417 "syntactic.tab.c"
+#line 1420 "syntactic.tab.c"
     break;
 
   case 74: /* coberta: EQUIVALENTTO cobertaDescript subclassof  */
-#line 205 "syntactic.y"
+#line 206 "syntactic.y"
                                                   {cout << PURPLE  << "6️⃣  2️⃣  Classe Coberta e Definida ⭢ " << vetorClasses << "\n"; total_coberta++;}
-#line 1423 "syntactic.tab.c"
+#line 1426 "syntactic.tab.c"
     break;
 
   case 75: /* coberta: EQUIVALENTTO cobertaDescript subclassof disjointclasses individuals  */
-#line 206 "syntactic.y"
+#line 207 "syntactic.y"
                                                                               {cout << PURPLE  << "6️⃣  2️⃣  Classe Coberta e Definida ⭢ " << vetorClasses << "\n"; total_coberta++;}
-#line 1429 "syntactic.tab.c"
+#line 1432 "syntactic.tab.c"
     break;
 
   case 76: /* coberta: EQUIVALENTTO cobertaDescript disjointclasses individuals  */
-#line 207 "syntactic.y"
+#line 208 "syntactic.y"
                                                                    {cout << PURPLE  << "6️⃣  2️⃣  Classe Coberta e Definida ⭢ " << vetorClasses << "\n"; total_coberta++;}
-#line 1435 "syntactic.tab.c"
+#line 1438 "syntactic.tab.c"
     break;
 
   case 77: /* coberta: EQUIVALENTTO cobertaDescript disjointclasses  */
-#line 209 "syntactic.y"
-                                                       {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | DisjointClasses não pode existir sozinha \n❗ É esperado SubclassOf antes e Individuals depois ❗\n"; errosSemanticos++;}
-#line 1441 "syntactic.tab.c"
+#line 210 "syntactic.y"
+                                                       {semanticError('A', yylineno, vetorClasses); errosSemanticos++;}
+#line 1444 "syntactic.tab.c"
     break;
 
   case 78: /* coberta: EQUIVALENTTO cobertaDescript individuals  */
-#line 210 "syntactic.y"
-                                                   {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | Individuals não pode existir sozinho \n❗ É esperado DisjointClasses antes ❗\n"; errosSemanticos++;}
-#line 1447 "syntactic.tab.c"
+#line 211 "syntactic.y"
+                                                   {semanticError('B', yylineno, vetorClasses); errosSemanticos++;}
+#line 1450 "syntactic.tab.c"
     break;
 
 
-#line 1451 "syntactic.tab.c"
+#line 1454 "syntactic.tab.c"
 
       default: break;
     }
@@ -1640,8 +1643,35 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 218 "syntactic.y"
+#line 219 "syntactic.y"
 
+
+// Método que exibe os erros semânticos de acordo com o código
+void semanticError(char codigoErro, int yylineno, char * vetorClasses){
+
+	switch (codigoErro){
+		case 'A': // Código A: DisjointClasses sem Individuals depois
+			cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  
+			" | DisjointClasses deve preceder Individuals \n❗ É esperado Individuals depois ❗\n";
+			break;
+		case 'B': // Código B: Individuals sem DisjointClasses antes
+			cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  
+			" | Individuals deve suceder DisjointClasses\n❗ É esperado DisjointClasses antes ❗\n";
+			break;
+		case 'C': // Código C: DisjointClasses sozinho na classe
+			cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  
+			" | DisjointClasses não pode existir sozinha \n❗ É esperado SubclassOf ou EquivalentTo antes e Individuals depois ❗\n";
+			break;
+		case 'D': // Código D: Individuals sozinho na classe
+			cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  
+			" | Individuals não pode existir sozinho \n❗ É esperado DisjointClasses antes ❗\n";
+			break;
+		case 'E': // Código E: EquivalentTo depois de SubclassOf
+			cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  
+			" | EquivalentTo não deve suceder SubclassOf\n❗ EquivalentTo deve vir ANTES de SubclassOf ❗\n";
+			break;
+	}
+}
 
 /* definido pelo analisador léxico */
 extern FILE * yyin;
@@ -1667,7 +1697,7 @@ int main(int argc, char ** argv)
 
 	// Tabela com o total de cada tipo de classe e erros semânticos
 	cout << "\n";
-	cout << GREEN << "----------------------------------------------\n";
+	cout << WHITE << "----------------------------------------------\n";
 	cout << "Total de classes Primitivas: " << total_primitiva << "\n";
 	cout << "----------------------------------------------\n";
 	cout << "Total de classes Definidas: " << total_definida << "\n";
