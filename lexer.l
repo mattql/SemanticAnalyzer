@@ -3,6 +3,8 @@
 #include <iostream>
 #include "syntactic.tab.h"
 using namespace std;
+
+string tipoDado = "";
 %}
 
 %option yylineno
@@ -11,6 +13,7 @@ delim       [ \t\n]
 brancos     {delim}+
 letra       [a-zA-Z]
 card        [0-9]+
+floats      [0-9]+("."[0-9]+)?
 idclasse    [A-Z]{letra}+(_{letra}*)?
 idprop      ("has"[A-Z]{letra}*)|("is"[A-Z]{letra}"Of"*)|([a-z]{letra}*)|([a-z][A-Z]{letra}*)
 individname [A-Z]{letra}*{card}+
@@ -39,8 +42,9 @@ datatype    ("owl:"|"xsd:"|"rdfs:")[a-z]+
 {idprop}           return IDPROP;
 {symbol}           return SYMBOL;
 {individname}      return INDIVIDNAME;
-{datatype}         return DATATYPE;
+{datatype}         {tipoDado = yytext; return DATATYPE;}
 {card}             return CARD;
+{floats}           return FLOATS;
 .                  cout << yytext << " é um token inválido!\n";
 %%
 

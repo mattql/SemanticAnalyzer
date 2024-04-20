@@ -17,6 +17,7 @@ int total_aninhada = 0;
 int total_enumerada = 0;
 int total_coberta = 0;
 char codigoErro;
+extern string tipoDado;
 
 int yylex(void);
 int yyparse(void);
@@ -39,7 +40,7 @@ void semanticError(char codigoErro, int yylineno, char * vetorClasses);
 // Declaração dos tokens utilizados e vindos do analisador léxico
 %token SOME ALL VALUE MIN MAX EXACTLY THAT NOT AND OR ONLY
 CLASS EQUIVALENTTO INDIVIDUALS SUBCLASSOF DISJOINTCLASSES
-IDCLASSE IDPROP SYMBOL INDIVIDNAME DATATYPE CARD
+IDCLASSE IDPROP SYMBOL INDIVIDNAME DATATYPE CARD FLOATS
 
 %%
 
@@ -79,11 +80,13 @@ subclassof: SUBCLASSOF subclassofDescript
 // Definição do que deve ter no conteúdo de um bloco SubclassOf
 subclassofDescript: IDPROP SOME IDCLASSE SYMBOL subclassofDescript
 	| IDCLASSE SYMBOL IDPROP SOME IDCLASSE SYMBOL subclassofDescript
-	| IDCLASSE SYMBOL IDPROP SOME IDCLASSE //
+	| IDCLASSE SYMBOL IDPROP SOME IDCLASSE
 	| IDCLASSE
 	| IDPROP SOME IDCLASSE
 	| IDPROP SOME DATATYPE
-	| IDCLASSE AND SYMBOL IDPROP minmax CARD DATATYPE SYMBOL // employee
+	| IDCLASSE AND SYMBOL IDPROP minmaxexactly CARD DATATYPE SYMBOL // Coerção: Deve haver um número (CARD) após MIN, MAX ou EXACTLY e antes de tipo de dado
+	// Regra abaixo é semanticamente errada
+	| IDCLASSE AND SYMBOL IDPROP minmaxexactly DATATYPE SYMBOL {semanticError('G', yylineno, vetorClasses); errosSemanticos++;}
 	;
 
 // Regras que definem como deve ser um DisjointClasses (Token + conteúdo do bloco)
@@ -120,14 +123,16 @@ equivalenttoD: EQUIVALENTTO equivalenttoDescript
 
 // Definição do que deve ter no conteúdo de um bloco EquivalentTo
 // ** para ser usado na classe Definida **
-equivalenttoDescript: IDCLASSE AND SYMBOL IDPROP SOME DATATYPE SYMBOL SYMBOL CARD SYMBOL SYMBOL
-	| IDCLASSE AND SYMBOL IDPROP SOME IDCLASSE SYMBOL // esse igual
-	| IDCLASSE AND SYMBOL IDPROP minmax CARD IDCLASSE SYMBOL
+equivalenttoDescript: IDCLASSE AND SYMBOL IDPROP SOME DATATYPE SYMBOL SYMBOL CARD SYMBOL SYMBOL // Coerção: Se o tipo de dado é integer tem que vir um CARD (inteiro) e não um FLOATS
+	| IDCLASSE AND SYMBOL IDPROP SOME IDCLASSE SYMBOL
+	| IDCLASSE AND SYMBOL IDPROP minmaxexactly CARD IDCLASSE SYMBOL // Coerção: Deve haver um número (CARD) após MIN, MAX ou EXACTLY e antes de nome de classe
+	// Regra abaixo é semanticamente errada
+	| IDCLASSE AND SYMBOL IDPROP SOME DATATYPE SYMBOL SYMBOL FLOATS SYMBOL SYMBOL {cout << ORANGE << "Tipo de dado encontrado: '" << tipoDado << "' na classe: " << vetorClasses << " \n" << NOCOLOR; semanticError('F', yylineno, vetorClasses); errosSemanticos++;}
+	| IDCLASSE AND SYMBOL IDPROP minmaxexactly IDCLASSE SYMBOL {semanticError('G', yylineno, vetorClasses); errosSemanticos++;}
 	;
 
-// Regra auxiliar para escolher entre os tokens MIN ou MAX
-minmax: MIN
-	| MAX
+// Regra auxiliar para escolher entre os tokens MIN, MAX ou EXACTLY
+minmaxexactly: MIN | MAX | EXACTLY
 	;
 
 // Define como uma classe com axioma de fechamento deve ser escrita
@@ -222,6 +227,7 @@ cobertaDescript: IDCLASSE
 void semanticError(char codigoErro, int yylineno, char * vetorClasses){
 
 	switch (codigoErro){
+		// Códigos de A a E são relacionados a Análise da Precedência dos Operadores
 		case 'A': // Código A: DisjointClasses sem Individuals depois
 			cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  
 			" | DisjointClasses deve preceder Individuals \n❗ É esperado Individuals depois ❗\n";
@@ -241,6 +247,19 @@ void semanticError(char codigoErro, int yylineno, char * vetorClasses){
 		case 'E': // Código E: EquivalentTo depois de SubclassOf
 			cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  
 			" | EquivalentTo não deve suceder SubclassOf\n❗ EquivalentTo deve vir ANTES de SubclassOf ❗\n";
+			break;
+		// Códigos F e G são relacionados a Verificação Estática de Tipos por Coerção
+		case 'F': // Código F: depois de um xsd:integer não veio um número inteiro
+			cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  
+			" | Número é ponto flutuante\n❗ É esperado um número inteiro ❗\n";
+			break;
+		case 'G': // Código G: Não tem número entre MIN, MAX, ou EXACTLY e o nome de classe ou tipo de dado
+			cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  
+			" | Entre o operador (min, max ou exactly) e o nome de classe ou tipo de dado *deve haver um número* \n❗ É esperado um número ❗\n";
+			break;
+		// Códigos H e X são relacionados a Verificação Estática de Tipos por Sobrecarregamento
+		case 'H':
+			
 			break;
 	}
 }

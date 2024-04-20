@@ -75,7 +75,8 @@ extern int yydebug;
     SYMBOL = 276,                  /* SYMBOL  */
     INDIVIDNAME = 277,             /* INDIVIDNAME  */
     DATATYPE = 278,                /* DATATYPE  */
-    CARD = 279                     /* CARD  */
+    CARD = 279,                    /* CARD  */
+    FLOATS = 280                   /* FLOATS  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif

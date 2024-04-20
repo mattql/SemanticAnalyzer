@@ -1,3 +1,9 @@
+Class: EmployeeError
+
+    SubClassOf:
+        Person
+         and (ssn min xsd:string)
+
 Class: Pizza
 
 SubClassOf:

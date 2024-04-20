@@ -87,6 +87,7 @@ int total_aninhada = 0;
 int total_enumerada = 0;
 int total_coberta = 0;
 char codigoErro;
+extern string tipoDado;
 
 int yylex(void);
 int yyparse(void);
@@ -105,7 +106,7 @@ void semanticError(char codigoErro, int yylineno, char * vetorClasses);
 #define WHITE   "\x1b[37m"
 #define NOCOLOR "\x1b[0m"
 
-#line 109 "syntactic.tab.c"
+#line 110 "syntactic.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -158,33 +159,34 @@ enum yysymbol_kind_t
   YYSYMBOL_INDIVIDNAME = 22,               /* INDIVIDNAME  */
   YYSYMBOL_DATATYPE = 23,                  /* DATATYPE  */
   YYSYMBOL_CARD = 24,                      /* CARD  */
-  YYSYMBOL_YYACCEPT = 25,                  /* $accept  */
-  YYSYMBOL_start = 26,                     /* start  */
-  YYSYMBOL_class = 27,                     /* class  */
-  YYSYMBOL_options = 28,                   /* options  */
-  YYSYMBOL_primitiva = 29,                 /* primitiva  */
-  YYSYMBOL_subclassof = 30,                /* subclassof  */
-  YYSYMBOL_subclassofDescript = 31,        /* subclassofDescript  */
-  YYSYMBOL_disjointclasses = 32,           /* disjointclasses  */
-  YYSYMBOL_disjointclassesDescript = 33,   /* disjointclassesDescript  */
-  YYSYMBOL_individuals = 34,               /* individuals  */
-  YYSYMBOL_individualsDescript = 35,       /* individualsDescript  */
-  YYSYMBOL_definida = 36,                  /* definida  */
-  YYSYMBOL_equivalenttoD = 37,             /* equivalenttoD  */
-  YYSYMBOL_equivalenttoDescript = 38,      /* equivalenttoDescript  */
-  YYSYMBOL_minmax = 39,                    /* minmax  */
-  YYSYMBOL_axioma = 40,                    /* axioma  */
-  YYSYMBOL_subclassofAxiomaDescript = 41,  /* subclassofAxiomaDescript  */
-  YYSYMBOL_aninhada = 42,                  /* aninhada  */
-  YYSYMBOL_equivalenttoA = 43,             /* equivalenttoA  */
-  YYSYMBOL_equivalenttoAnin = 44,          /* equivalenttoAnin  */
-  YYSYMBOL_aninhadaAux = 45,               /* aninhadaAux  */
-  YYSYMBOL_someOnlyValueOr = 46,           /* someOnlyValueOr  */
-  YYSYMBOL_classOrProp = 47,               /* classOrProp  */
-  YYSYMBOL_enumerada = 48,                 /* enumerada  */
-  YYSYMBOL_enumInstances = 49,             /* enumInstances  */
-  YYSYMBOL_coberta = 50,                   /* coberta  */
-  YYSYMBOL_cobertaDescript = 51            /* cobertaDescript  */
+  YYSYMBOL_FLOATS = 25,                    /* FLOATS  */
+  YYSYMBOL_YYACCEPT = 26,                  /* $accept  */
+  YYSYMBOL_start = 27,                     /* start  */
+  YYSYMBOL_class = 28,                     /* class  */
+  YYSYMBOL_options = 29,                   /* options  */
+  YYSYMBOL_primitiva = 30,                 /* primitiva  */
+  YYSYMBOL_subclassof = 31,                /* subclassof  */
+  YYSYMBOL_subclassofDescript = 32,        /* subclassofDescript  */
+  YYSYMBOL_disjointclasses = 33,           /* disjointclasses  */
+  YYSYMBOL_disjointclassesDescript = 34,   /* disjointclassesDescript  */
+  YYSYMBOL_individuals = 35,               /* individuals  */
+  YYSYMBOL_individualsDescript = 36,       /* individualsDescript  */
+  YYSYMBOL_definida = 37,                  /* definida  */
+  YYSYMBOL_equivalenttoD = 38,             /* equivalenttoD  */
+  YYSYMBOL_equivalenttoDescript = 39,      /* equivalenttoDescript  */
+  YYSYMBOL_minmaxexactly = 40,             /* minmaxexactly  */
+  YYSYMBOL_axioma = 41,                    /* axioma  */
+  YYSYMBOL_subclassofAxiomaDescript = 42,  /* subclassofAxiomaDescript  */
+  YYSYMBOL_aninhada = 43,                  /* aninhada  */
+  YYSYMBOL_equivalenttoA = 44,             /* equivalenttoA  */
+  YYSYMBOL_equivalenttoAnin = 45,          /* equivalenttoAnin  */
+  YYSYMBOL_aninhadaAux = 46,               /* aninhadaAux  */
+  YYSYMBOL_someOnlyValueOr = 47,           /* someOnlyValueOr  */
+  YYSYMBOL_classOrProp = 48,               /* classOrProp  */
+  YYSYMBOL_enumerada = 49,                 /* enumerada  */
+  YYSYMBOL_enumInstances = 50,             /* enumInstances  */
+  YYSYMBOL_coberta = 51,                   /* coberta  */
+  YYSYMBOL_cobertaDescript = 52            /* cobertaDescript  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -512,19 +514,19 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  5
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   192
+#define YYLAST   205
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  25
+#define YYNTOKENS  26
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  27
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  80
+#define YYNRULES  84
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  187
+#define YYNSTATES  195
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   279
+#define YYMAXUTOK   280
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -565,22 +567,23 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
-      15,    16,    17,    18,    19,    20,    21,    22,    23,    24
+      15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
+      25
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    47,    47,    48,    52,    56,    57,    58,    59,    60,
-      61,    62,    66,    67,    69,    70,    71,    72,    76,    80,
-      81,    82,    83,    84,    85,    86,    90,    94,    95,    99,
-     103,   104,   108,   109,   111,   112,   113,   118,   123,   124,
-     125,   129,   130,   134,   135,   137,   138,   144,   145,   146,
-     147,   156,   157,   159,   160,   166,   175,   178,   178,   182,
-     182,   182,   182,   186,   186,   190,   191,   192,   193,   195,
-     196,   200,   201,   205,   206,   207,   208,   210,   211,   215,
-     216
+       0,    48,    48,    49,    53,    57,    58,    59,    60,    61,
+      62,    63,    67,    68,    70,    71,    72,    73,    77,    81,
+      82,    83,    84,    85,    86,    87,    89,    93,    97,    98,
+     102,   106,   107,   111,   112,   114,   115,   116,   121,   126,
+     127,   128,   130,   131,   135,   135,   135,   139,   140,   142,
+     143,   149,   150,   151,   152,   161,   162,   164,   165,   171,
+     180,   183,   183,   187,   187,   187,   187,   191,   191,   195,
+     196,   197,   198,   200,   201,   205,   206,   210,   211,   212,
+     213,   215,   216,   220,   221
 };
 #endif
 
@@ -600,13 +603,13 @@ static const char *const yytname[] =
   "MIN", "MAX", "EXACTLY", "THAT", "NOT", "AND", "OR", "ONLY", "CLASS",
   "EQUIVALENTTO", "INDIVIDUALS", "SUBCLASSOF", "DISJOINTCLASSES",
   "IDCLASSE", "IDPROP", "SYMBOL", "INDIVIDNAME", "DATATYPE", "CARD",
-  "$accept", "start", "class", "options", "primitiva", "subclassof",
-  "subclassofDescript", "disjointclasses", "disjointclassesDescript",
-  "individuals", "individualsDescript", "definida", "equivalenttoD",
-  "equivalenttoDescript", "minmax", "axioma", "subclassofAxiomaDescript",
-  "aninhada", "equivalenttoA", "equivalenttoAnin", "aninhadaAux",
-  "someOnlyValueOr", "classOrProp", "enumerada", "enumInstances",
-  "coberta", "cobertaDescript", YY_NULLPTR
+  "FLOATS", "$accept", "start", "class", "options", "primitiva",
+  "subclassof", "subclassofDescript", "disjointclasses",
+  "disjointclassesDescript", "individuals", "individualsDescript",
+  "definida", "equivalenttoD", "equivalenttoDescript", "minmaxexactly",
+  "axioma", "subclassofAxiomaDescript", "aninhada", "equivalenttoA",
+  "equivalenttoAnin", "aninhadaAux", "someOnlyValueOr", "classOrProp",
+  "enumerada", "enumInstances", "coberta", "cobertaDescript", YY_NULLPTR
 };
 
 static const char *
@@ -616,7 +619,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-76)
+#define YYPACT_NINF (-77)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -630,25 +633,26 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-      -3,    35,     4,    72,   -76,   -76,    72,    15,    29,    73,
-      50,   -76,   -76,    46,   -76,   -76,   -76,    65,   -76,   -76,
-      65,   -76,   -76,   -76,    60,    69,   -76,    61,   -76,    89,
-      -4,   106,   -76,    65,   -76,    91,    92,    97,   -76,   -76,
-      97,   -76,    97,   -76,    93,   -76,    94,    98,    75,   101,
-      97,   -76,    99,    95,   100,    27,    97,   -76,   103,   112,
-     -76,   -76,   -76,   104,    31,   -76,    -2,    97,   -76,   -76,
-     105,   123,   107,   -76,   -76,   -76,   108,    53,   -76,   101,
-      97,   -76,   110,   -76,    90,   113,    75,   111,    44,   -76,
-     -76,   -76,   -76,   -76,   109,   114,    97,   -76,   124,   115,
-     116,   -76,    26,   117,   119,   122,    79,   -76,   -76,   125,
-     120,    81,    44,   -76,   121,   126,   -76,   -76,    11,   127,
-     128,     9,   -76,   129,   -76,   -76,   131,    75,   -76,    51,
-     130,   133,   134,   135,   138,   137,   139,    84,   140,   -76,
-      11,    24,   -76,   -76,   141,    57,   142,   132,   143,   146,
-      11,    86,   147,   145,    28,   148,   149,    63,   150,   151,
-      11,   152,   155,   -76,   153,    88,   156,   157,    32,   158,
-     159,   160,   164,    11,   163,   165,   -76,   167,   162,   166,
-     -76,   174,   168,   176,   170,   169,   -76
+       8,    18,     2,    80,   -77,   -77,    80,   -15,    22,    90,
+      31,   -77,   -77,    84,   -77,   -77,   -77,    -3,   -77,   -77,
+      -3,   -77,   -77,   -77,    13,    33,   -77,    35,   -77,    45,
+       9,    65,   -77,    -3,   -77,    67,    74,    85,   -77,   -77,
+      85,   -77,    85,   -77,   106,   -77,   107,   103,    92,   108,
+      85,   -77,    97,   109,   111,    38,    85,   -77,   110,   121,
+     -77,   -77,   -77,   113,    58,   -77,    12,    85,   -77,   -77,
+     114,   132,   115,   -77,   -77,   -77,   116,    57,   -77,   108,
+      85,   -77,   118,   -77,   100,   120,    92,   122,    48,   -77,
+     -77,   -77,   -77,   -77,   -77,    30,   119,    85,   -77,   138,
+      54,   123,   -77,    78,   124,   125,   126,   129,    94,   -77,
+     -77,   130,   131,   127,    96,    48,   -77,   133,   -77,   134,
+     -77,   -77,     5,   135,   -77,   136,    23,   -77,    79,   -77,
+     -77,   139,    92,   -77,    60,   140,   141,   142,   143,   144,
+     147,   146,   148,   149,    98,   150,   -77,   -77,     5,    25,
+     -77,   -77,   151,    68,   152,   154,   155,   156,     5,   101,
+     165,   157,    28,   160,   161,    71,   159,   162,     5,   163,
+     166,   -77,   137,   105,   170,   167,    32,   168,   169,   171,
+     174,     5,   172,   175,   -77,   177,   176,   179,   -77,   181,
+     180,   183,   182,   184,   -77
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -657,40 +661,41 @@ static const yytype_int16 yypact[] =
 static const yytype_int8 yydefact[] =
 {
        0,     0,     0,    11,     4,     1,    11,     0,     0,     0,
-       0,     2,     5,    12,    14,    15,     6,    32,     7,     8,
-      51,     9,    10,     3,    79,     0,    37,    73,    30,    29,
-      22,     0,    18,    43,    27,    26,     0,    16,    17,    36,
-      34,    35,    53,    54,     0,    71,     0,     0,     0,    74,
-      77,    78,     0,     0,     0,     0,    45,    46,     0,     0,
-      13,    33,    52,     0,    65,    80,    22,     0,    76,    31,
-       0,     0,    23,    24,    44,    28,     0,     0,    72,    66,
-      69,    70,     0,    75,     0,     0,     0,     0,    59,    61,
-      41,    42,    62,    60,     0,     0,     0,    68,     0,     0,
-      21,    19,     0,     0,     0,     0,     0,    55,    67,     0,
-       0,     0,     0,    39,     0,     0,    63,    64,     0,    21,
-       0,     0,    20,     0,    40,    59,     0,     0,    25,     0,
-       0,     0,     0,    23,     0,     0,     0,     0,     0,    38,
-      58,     0,    47,    56,     0,     0,     0,     0,    23,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,    23,     0,    48,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,    58,     0,     0,    57,     0,     0,     0,
-      49,     0,     0,     0,     0,     0,    50
+       0,     2,     5,    12,    14,    15,     6,    33,     7,     8,
+      55,     9,    10,     3,    83,     0,    38,    77,    31,    30,
+      22,     0,    18,    47,    28,    27,     0,    16,    17,    37,
+      35,    36,    57,    58,     0,    75,     0,     0,     0,    78,
+      81,    82,     0,     0,     0,     0,    49,    50,     0,     0,
+      13,    34,    56,     0,    69,    84,    22,     0,    80,    32,
+       0,     0,    23,    24,    48,    29,     0,     0,    76,    70,
+      73,    74,     0,    79,     0,     0,     0,     0,    63,    65,
+      44,    45,    46,    66,    64,     0,     0,     0,    72,     0,
+       0,    21,    19,     0,     0,     0,     0,     0,     0,    59,
+      71,     0,     0,     0,     0,     0,    40,     0,    43,     0,
+      67,    68,     0,    21,    26,     0,     0,    20,     0,    41,
+      63,     0,     0,    25,     0,     0,     0,     0,     0,    23,
+       0,     0,     0,     0,     0,     0,    39,    42,    62,     0,
+      51,    60,     0,     0,     0,     0,    23,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,    23,
+       0,    52,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,    62,     0,     0,    61,     0,     0,     0,    53,     0,
+       0,     0,     0,     0,    54
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int16 yypgoto[] =
 {
-     -76,   -76,   144,   185,   -76,   -24,    -9,    -7,   -76,   -12,
-     -76,   -76,   179,   -76,    52,   -76,   -76,   -76,   -76,   -76,
-     -39,   -75,   -76,   -76,   -76,   -76,   -76
+     -77,   -77,   158,   145,   -77,   -24,    -9,    -6,   -77,    -8,
+     -77,   -77,   187,   -77,    59,   -77,   -77,   -77,   -77,   -77,
+     -28,   -76,   -77,   -77,   -77,   -77,   -77
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_uint8 yydefgoto[] =
 {
-       0,     2,     3,    11,    12,    13,   101,    14,    35,    15,
-      29,    16,    17,    26,    94,    18,    33,    19,    20,   107,
-     143,   144,   118,    21,    46,    22,    27
+       0,     2,     3,    11,    12,    13,   102,    14,    35,    15,
+      29,    16,    17,    26,    95,    18,    33,    19,    20,   109,
+     151,   152,   122,    21,    46,    22,    27
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -698,89 +703,92 @@ static const yytype_uint8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-      32,    38,    95,    49,     5,    41,    37,    53,    43,    53,
-      40,     1,   129,    42,   125,    51,    89,    54,     1,    82,
-      50,    57,   130,    92,    93,    60,    56,   145,    61,   112,
-      62,   157,    90,    91,    24,    55,    25,   146,    68,    32,
-      79,   158,    67,   126,    74,   171,    72,     8,    48,    10,
-      73,    28,    81,    78,     4,    83,    88,    80,    89,    90,
-      91,    36,     8,   103,    10,    92,    93,   104,    97,    34,
-     133,    44,    96,    47,    73,   153,   148,     8,    48,    10,
-      73,     8,   161,    10,   108,   164,    73,     7,     8,     9,
-      10,    45,    30,    31,    66,    31,    90,    91,   116,   117,
-      66,   121,   122,    66,   141,    66,   154,    66,   168,    55,
-      52,    59,    58,     8,    63,    64,    70,    65,   122,    10,
-      71,    69,    75,    76,    77,    84,    85,   109,    86,    87,
-      98,   102,   100,   105,   176,   106,    99,   111,   113,   110,
-     114,   115,   123,   120,   119,     0,     6,   124,   127,   128,
-     132,   134,   150,   131,   135,   136,   137,   138,   139,   155,
-     140,   142,   147,   149,   151,   152,   156,   159,   169,   160,
-       0,   162,   163,   165,   166,   167,   175,   172,   170,   179,
-     173,   174,   177,   180,   178,   181,   182,   183,   184,   185,
-     186,    23,    39
+      32,    96,     5,    49,    24,    38,    25,    37,   130,    41,
+      89,    40,    43,     8,    42,    10,     1,    93,    94,    51,
+      53,    50,     1,    53,    44,    57,   134,    56,   153,    60,
+      54,   165,    61,    82,    62,    55,   135,     4,   154,    32,
+      79,   166,    68,    67,    28,   179,   131,    47,    74,   106,
+      34,     8,    48,    10,   107,    45,    81,    72,    80,    83,
+      88,    73,    89,    90,    91,    92,    52,   104,    55,    93,
+      94,   105,    98,    97,     8,    48,    10,   112,   113,   139,
+      78,   115,   161,    73,    90,    91,    92,   156,    58,   110,
+     169,    73,   172,    59,    73,     7,     8,     9,    10,    36,
+       8,     8,    10,   136,   137,   127,    90,    91,    92,    30,
+      31,    66,    31,   120,   121,    66,   126,    66,   149,    69,
+      66,   162,    65,   127,    66,   176,    10,    63,    64,    75,
+      70,    71,    76,    77,    84,    85,    86,    87,    99,   101,
+     108,   111,   103,   100,   114,   116,   117,   118,   119,   123,
+     125,    23,   124,   184,   128,   129,   132,   133,   138,   175,
+       6,   140,   141,   142,   143,   144,   145,   146,     0,   147,
+     148,   150,   155,   157,   158,   160,   159,   163,   164,   167,
+     170,   168,   177,   171,   173,   174,   183,   180,   178,   187,
+     181,   185,   182,   190,   186,   192,     0,   188,   189,   191,
+      39,   193,     0,     0,     0,   194
 };
 
 static const yytype_int16 yycheck[] =
 {
-       9,    13,    77,    27,     0,    17,    13,    11,    20,    11,
-      17,    14,     3,    20,     3,    27,     5,    21,    14,    21,
-      27,    33,    13,    12,    13,    37,    33,     3,    40,     3,
-      42,     3,     6,     7,    19,     3,    21,    13,    50,    48,
-      64,    13,    49,   118,    56,    13,    19,    16,    17,    18,
-      23,    22,    64,    22,    19,    67,     3,    64,     5,     6,
-       7,    15,    16,    19,    18,    12,    13,    23,    80,    19,
-      19,    11,    79,    12,    23,   150,    19,    16,    17,    18,
-      23,    16,    19,    18,    96,   160,    23,    15,    16,    17,
-      18,    22,    19,    20,    19,    20,     6,     7,    19,    20,
-      19,    20,   111,    19,    20,    19,    20,    19,    20,     3,
-      21,    19,    21,    16,    21,    21,    21,    19,   127,    18,
-      20,    22,    19,    11,    20,    20,     3,     3,    21,    21,
-      20,    20,    19,    24,   173,    21,    84,    21,    21,    24,
-      21,    19,    21,    23,    19,    -1,     2,    21,    21,    21,
-      19,    21,    20,    24,    21,    21,    21,    19,    21,    12,
-      21,    21,    21,    21,    21,    19,    21,    19,    12,    20,
-      -1,    21,    21,    21,    19,    22,    12,    19,    21,    12,
-      21,    21,    19,    21,    19,    19,    12,    19,    12,    19,
-      21,     6,    13
+       9,    77,     0,    27,    19,    13,    21,    13,     3,    17,
+       5,    17,    20,    16,    20,    18,    14,    12,    13,    27,
+      11,    27,    14,    11,    11,    33,     3,    33,     3,    37,
+      21,     3,    40,    21,    42,     3,    13,    19,    13,    48,
+      64,    13,    50,    49,    22,    13,   122,    12,    56,    19,
+      19,    16,    17,    18,    24,    22,    64,    19,    64,    67,
+       3,    23,     5,     6,     7,     8,    21,    19,     3,    12,
+      13,    23,    80,    79,    16,    17,    18,    23,    24,    19,
+      22,     3,   158,    23,     6,     7,     8,    19,    21,    97,
+      19,    23,   168,    19,    23,    15,    16,    17,    18,    15,
+      16,    16,    18,    24,    25,   114,     6,     7,     8,    19,
+      20,    19,    20,    19,    20,    19,    20,    19,    20,    22,
+      19,    20,    19,   132,    19,    20,    18,    21,    21,    19,
+      21,    20,    11,    20,    20,     3,    21,    21,    20,    19,
+      21,     3,    20,    84,    21,    21,    21,    21,    19,    19,
+      23,     6,    21,   181,    21,    21,    21,    21,    19,    22,
+       2,    21,    21,    21,    21,    21,    19,    21,    -1,    21,
+      21,    21,    21,    21,    20,    19,    21,    12,    21,    19,
+      21,    20,    12,    21,    21,    19,    12,    19,    21,    12,
+      21,    19,    21,    12,    19,    12,    -1,    21,    19,    19,
+      13,    19,    -1,    -1,    -1,    21
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    14,    26,    27,    19,     0,    27,    15,    16,    17,
-      18,    28,    29,    30,    32,    34,    36,    37,    40,    42,
-      43,    48,    50,    28,    19,    21,    38,    51,    22,    35,
-      19,    20,    31,    41,    19,    33,    15,    32,    34,    37,
-      32,    34,    32,    34,    11,    22,    49,    12,    17,    30,
-      32,    34,    21,    11,    21,     3,    32,    34,    21,    19,
-      34,    34,    34,    21,    21,    19,    19,    32,    34,    22,
-      21,    20,    19,    23,    34,    19,    11,    20,    22,    30,
-      32,    34,    21,    34,    20,     3,    21,    21,     3,     5,
-       6,     7,    12,    13,    39,    46,    32,    34,    20,    39,
-      19,    31,    20,    19,    23,    24,    21,    44,    34,     3,
-      24,    21,     3,    21,    21,    19,    19,    20,    47,    19,
-      23,    20,    31,    21,    21,     3,    46,    21,    21,     3,
-      13,    24,    19,    19,    21,    21,    21,    21,    19,    21,
-      21,    20,    21,    45,    46,     3,    13,    21,    19,    21,
-      20,    21,    19,    46,    20,    12,    21,     3,    13,    19,
-      20,    19,    21,    21,    46,    21,    19,    22,    20,    12,
-      21,    13,    19,    21,    21,    12,    45,    19,    19,    12,
-      21,    19,    12,    19,    12,    19,    21
+       0,    14,    27,    28,    19,     0,    28,    15,    16,    17,
+      18,    29,    30,    31,    33,    35,    37,    38,    41,    43,
+      44,    49,    51,    29,    19,    21,    39,    52,    22,    36,
+      19,    20,    32,    42,    19,    34,    15,    33,    35,    38,
+      33,    35,    33,    35,    11,    22,    50,    12,    17,    31,
+      33,    35,    21,    11,    21,     3,    33,    35,    21,    19,
+      35,    35,    35,    21,    21,    19,    19,    33,    35,    22,
+      21,    20,    19,    23,    35,    19,    11,    20,    22,    31,
+      33,    35,    21,    35,    20,     3,    21,    21,     3,     5,
+       6,     7,     8,    12,    13,    40,    47,    33,    35,    20,
+      40,    19,    32,    20,    19,    23,    19,    24,    21,    45,
+      35,     3,    23,    24,    21,     3,    21,    21,    21,    19,
+      19,    20,    48,    19,    21,    23,    20,    32,    21,    21,
+       3,    47,    21,    21,     3,    13,    24,    25,    19,    19,
+      21,    21,    21,    21,    21,    19,    21,    21,    21,    20,
+      21,    46,    47,     3,    13,    21,    19,    21,    20,    21,
+      19,    47,    20,    12,    21,     3,    13,    19,    20,    19,
+      21,    21,    47,    21,    19,    22,    20,    12,    21,    13,
+      19,    21,    21,    12,    46,    19,    19,    12,    21,    19,
+      12,    19,    12,    19,    21
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    25,    26,    26,    27,    28,    28,    28,    28,    28,
-      28,    28,    29,    29,    29,    29,    29,    29,    30,    31,
-      31,    31,    31,    31,    31,    31,    32,    33,    33,    34,
-      35,    35,    36,    36,    36,    36,    36,    37,    38,    38,
-      38,    39,    39,    40,    40,    40,    40,    41,    41,    41,
-      41,    42,    42,    42,    42,    43,    44,    45,    45,    46,
-      46,    46,    46,    47,    47,    48,    48,    48,    48,    48,
-      48,    49,    49,    50,    50,    50,    50,    50,    50,    51,
-      51
+       0,    26,    27,    27,    28,    29,    29,    29,    29,    29,
+      29,    29,    30,    30,    30,    30,    30,    30,    31,    32,
+      32,    32,    32,    32,    32,    32,    32,    33,    34,    34,
+      35,    36,    36,    37,    37,    37,    37,    37,    38,    39,
+      39,    39,    39,    39,    40,    40,    40,    41,    41,    41,
+      41,    42,    42,    42,    42,    43,    43,    43,    43,    44,
+      45,    46,    46,    47,    47,    47,    47,    48,    48,    49,
+      49,    49,    49,    49,    49,    50,    50,    51,    51,    51,
+      51,    51,    51,    52,    52
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
@@ -788,13 +796,13 @@ static const yytype_int8 yyr2[] =
 {
        0,     2,     2,     3,     2,     1,     1,     1,     1,     1,
        1,     0,     1,     3,     1,     1,     2,     2,     2,     5,
-       7,     5,     1,     3,     3,     8,     2,     1,     3,     2,
-       1,     3,     1,     3,     2,     2,     2,     2,    11,     7,
-       8,     1,     1,     2,     4,     3,     3,    11,    17,    23,
-      29,     1,     3,     2,     2,     7,     7,    11,     0,     1,
-       1,     1,     1,     1,     1,     4,     5,     7,     6,     5,
-       5,     1,     3,     2,     3,     5,     4,     3,     3,     1,
-       3
+       7,     5,     1,     3,     3,     8,     7,     2,     1,     3,
+       2,     1,     3,     1,     3,     2,     2,     2,     2,    11,
+       7,     8,    11,     7,     1,     1,     1,     2,     4,     3,
+       3,    11,    17,    23,    29,     1,     3,     2,     2,     7,
+       7,    11,     0,     1,     1,     1,     1,     1,     1,     4,
+       5,     7,     6,     5,     5,     1,     3,     2,     3,     5,
+       4,     3,     3,     1,     3
 };
 
 
@@ -1258,199 +1266,217 @@ yyreduce:
   switch (yyn)
     {
   case 4: /* class: CLASS IDCLASSE  */
-#line 52 "syntactic.y"
+#line 53 "syntactic.y"
                       {isClass = 0; strcpy(vetorClasses, yytext);}
-#line 1264 "syntactic.tab.c"
+#line 1272 "syntactic.tab.c"
     break;
 
   case 12: /* primitiva: subclassof  */
-#line 66 "syntactic.y"
+#line 67 "syntactic.y"
                       {cout << GREEN << "1️⃣  Classe Primitiva ⭢ " << vetorClasses << "\n"; total_primitiva++;}
-#line 1270 "syntactic.tab.c"
+#line 1278 "syntactic.tab.c"
     break;
 
   case 13: /* primitiva: subclassof disjointclasses individuals  */
-#line 67 "syntactic.y"
+#line 68 "syntactic.y"
                                                  {cout << GREEN << "1️⃣  Classe Primitiva ⭢ " << vetorClasses << "\n"; total_primitiva++;}
-#line 1276 "syntactic.tab.c"
+#line 1284 "syntactic.tab.c"
     break;
 
   case 14: /* primitiva: disjointclasses  */
-#line 69 "syntactic.y"
+#line 70 "syntactic.y"
                           {semanticError('C', yylineno, vetorClasses); errosSemanticos++;}
-#line 1282 "syntactic.tab.c"
+#line 1290 "syntactic.tab.c"
     break;
 
   case 15: /* primitiva: individuals  */
-#line 70 "syntactic.y"
+#line 71 "syntactic.y"
                       {semanticError('D', yylineno, vetorClasses); errosSemanticos++;}
-#line 1288 "syntactic.tab.c"
+#line 1296 "syntactic.tab.c"
     break;
 
   case 16: /* primitiva: subclassof disjointclasses  */
-#line 71 "syntactic.y"
+#line 72 "syntactic.y"
                                      {semanticError('A', yylineno, vetorClasses); errosSemanticos++;}
-#line 1294 "syntactic.tab.c"
+#line 1302 "syntactic.tab.c"
     break;
 
   case 17: /* primitiva: subclassof individuals  */
-#line 72 "syntactic.y"
+#line 73 "syntactic.y"
                                  {semanticError('B', yylineno, vetorClasses); errosSemanticos++;}
-#line 1300 "syntactic.tab.c"
+#line 1308 "syntactic.tab.c"
     break;
 
-  case 32: /* definida: equivalenttoD  */
-#line 108 "syntactic.y"
-                        {cout << BLUE << "2️⃣  Classe Definida ⭢ " << vetorClasses << "\n"; total_definida++;}
-#line 1306 "syntactic.tab.c"
+  case 26: /* subclassofDescript: IDCLASSE AND SYMBOL IDPROP minmaxexactly DATATYPE SYMBOL  */
+#line 89 "syntactic.y"
+                                                                   {semanticError('G', yylineno, vetorClasses); errosSemanticos++;}
+#line 1314 "syntactic.tab.c"
     break;
 
-  case 33: /* definida: equivalenttoD disjointclasses individuals  */
-#line 109 "syntactic.y"
-                                                    {cout << BLUE << "2️⃣  Classe Definida ⭢ " << vetorClasses << "\n"; total_definida++;}
-#line 1312 "syntactic.tab.c"
-    break;
-
-  case 34: /* definida: equivalenttoD disjointclasses  */
+  case 33: /* definida: equivalenttoD  */
 #line 111 "syntactic.y"
-                                        {semanticError('A', yylineno, vetorClasses); errosSemanticos++;}
-#line 1318 "syntactic.tab.c"
+                        {cout << BLUE << "2️⃣  Classe Definida ⭢ " << vetorClasses << "\n"; total_definida++;}
+#line 1320 "syntactic.tab.c"
     break;
 
-  case 35: /* definida: equivalenttoD individuals  */
+  case 34: /* definida: equivalenttoD disjointclasses individuals  */
 #line 112 "syntactic.y"
-                                    {semanticError('B', yylineno, vetorClasses); errosSemanticos++;}
-#line 1324 "syntactic.tab.c"
+                                                    {cout << BLUE << "2️⃣  Classe Definida ⭢ " << vetorClasses << "\n"; total_definida++;}
+#line 1326 "syntactic.tab.c"
     break;
 
-  case 36: /* definida: subclassof equivalenttoD  */
-#line 113 "syntactic.y"
-                                   {semanticError('E', yylineno, vetorClasses); errosSemanticos++;}
-#line 1330 "syntactic.tab.c"
-    break;
-
-  case 43: /* axioma: SUBCLASSOF subclassofAxiomaDescript  */
-#line 134 "syntactic.y"
-                                            {cout << YELLOW << "3️⃣ 1️⃣  Classe com axioma de fechamento e Primitiva ⭢ " << vetorClasses << "\n"; total_axioma++;}
-#line 1336 "syntactic.tab.c"
-    break;
-
-  case 44: /* axioma: SUBCLASSOF subclassofAxiomaDescript disjointclasses individuals  */
-#line 135 "syntactic.y"
-                                                                          {cout << YELLOW << "3️⃣ 1️⃣  Classe com axioma de fechamento e Primitiva ⭢ " << vetorClasses << "\n"; total_axioma++;}
-#line 1342 "syntactic.tab.c"
-    break;
-
-  case 45: /* axioma: SUBCLASSOF subclassofAxiomaDescript disjointclasses  */
-#line 137 "syntactic.y"
-                                                              {semanticError('A', yylineno, vetorClasses); errosSemanticos++;}
-#line 1348 "syntactic.tab.c"
-    break;
-
-  case 46: /* axioma: SUBCLASSOF subclassofAxiomaDescript individuals  */
-#line 138 "syntactic.y"
-                                                          {semanticError('B', yylineno, vetorClasses); errosSemanticos++;}
-#line 1354 "syntactic.tab.c"
-    break;
-
-  case 51: /* aninhada: equivalenttoA  */
-#line 156 "syntactic.y"
-                        {cout << MAGENTA << "4️⃣ 2️⃣  Classe com descrições aninhadas e Definida ⭢ " << vetorClasses << "\n"; total_aninhada++;}
-#line 1360 "syntactic.tab.c"
-    break;
-
-  case 52: /* aninhada: equivalenttoA disjointclasses individuals  */
-#line 157 "syntactic.y"
-                                                    {cout << MAGENTA << "4️⃣ 2️⃣  Classe com descrições aninhadas e Definida ⭢ " << vetorClasses << "\n"; total_aninhada++;}
-#line 1366 "syntactic.tab.c"
-    break;
-
-  case 53: /* aninhada: equivalenttoA disjointclasses  */
-#line 159 "syntactic.y"
+  case 35: /* definida: equivalenttoD disjointclasses  */
+#line 114 "syntactic.y"
                                         {semanticError('A', yylineno, vetorClasses); errosSemanticos++;}
-#line 1372 "syntactic.tab.c"
+#line 1332 "syntactic.tab.c"
     break;
 
-  case 54: /* aninhada: equivalenttoA individuals  */
-#line 160 "syntactic.y"
+  case 36: /* definida: equivalenttoD individuals  */
+#line 115 "syntactic.y"
                                     {semanticError('B', yylineno, vetorClasses); errosSemanticos++;}
-#line 1378 "syntactic.tab.c"
+#line 1338 "syntactic.tab.c"
     break;
 
-  case 65: /* enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL  */
-#line 190 "syntactic.y"
-                                                    {cout << CYAN << "5️⃣ 2️⃣  Classe Enumerada e Definida ⭢ " << vetorClasses << "\n"; total_enumerada++;}
-#line 1384 "syntactic.tab.c"
+  case 37: /* definida: subclassof equivalenttoD  */
+#line 116 "syntactic.y"
+                                   {semanticError('E', yylineno, vetorClasses); errosSemanticos++;}
+#line 1344 "syntactic.tab.c"
     break;
 
-  case 66: /* enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL subclassof  */
-#line 191 "syntactic.y"
-                                                              {cout << CYAN << "5️⃣ 2️⃣  Classe Enumerada e Definida ⭢ " << vetorClasses << "\n"; total_enumerada++;}
-#line 1390 "syntactic.tab.c"
+  case 42: /* equivalenttoDescript: IDCLASSE AND SYMBOL IDPROP SOME DATATYPE SYMBOL SYMBOL FLOATS SYMBOL SYMBOL  */
+#line 130 "syntactic.y"
+                                                                                      {cout << ORANGE << "Tipo de dado encontrado: '" << tipoDado << "' na classe: " << vetorClasses << " \n" << NOCOLOR; semanticError('F', yylineno, vetorClasses); errosSemanticos++;}
+#line 1350 "syntactic.tab.c"
     break;
 
-  case 67: /* enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL subclassof disjointclasses individuals  */
-#line 192 "syntactic.y"
-                                                                                          {cout << CYAN << "5️⃣ 2️⃣  Classe Enumerada e Definida ⭢ " << vetorClasses << "\n"; total_enumerada++;}
-#line 1396 "syntactic.tab.c"
+  case 43: /* equivalenttoDescript: IDCLASSE AND SYMBOL IDPROP minmaxexactly IDCLASSE SYMBOL  */
+#line 131 "syntactic.y"
+                                                                   {semanticError('G', yylineno, vetorClasses); errosSemanticos++;}
+#line 1356 "syntactic.tab.c"
     break;
 
-  case 68: /* enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL disjointclasses individuals  */
-#line 193 "syntactic.y"
-                                                                               {cout << CYAN << "5️⃣ 2️⃣  Classe Enumerada e Definida ⭢ " << vetorClasses << "\n"; total_enumerada++;}
-#line 1402 "syntactic.tab.c"
+  case 47: /* axioma: SUBCLASSOF subclassofAxiomaDescript  */
+#line 139 "syntactic.y"
+                                            {cout << YELLOW << "3️⃣ 1️⃣  Classe com axioma de fechamento e Primitiva ⭢ " << vetorClasses << "\n"; total_axioma++;}
+#line 1362 "syntactic.tab.c"
     break;
 
-  case 69: /* enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL disjointclasses  */
+  case 48: /* axioma: SUBCLASSOF subclassofAxiomaDescript disjointclasses individuals  */
+#line 140 "syntactic.y"
+                                                                          {cout << YELLOW << "3️⃣ 1️⃣  Classe com axioma de fechamento e Primitiva ⭢ " << vetorClasses << "\n"; total_axioma++;}
+#line 1368 "syntactic.tab.c"
+    break;
+
+  case 49: /* axioma: SUBCLASSOF subclassofAxiomaDescript disjointclasses  */
+#line 142 "syntactic.y"
+                                                              {semanticError('A', yylineno, vetorClasses); errosSemanticos++;}
+#line 1374 "syntactic.tab.c"
+    break;
+
+  case 50: /* axioma: SUBCLASSOF subclassofAxiomaDescript individuals  */
+#line 143 "syntactic.y"
+                                                          {semanticError('B', yylineno, vetorClasses); errosSemanticos++;}
+#line 1380 "syntactic.tab.c"
+    break;
+
+  case 55: /* aninhada: equivalenttoA  */
+#line 161 "syntactic.y"
+                        {cout << MAGENTA << "4️⃣ 2️⃣  Classe com descrições aninhadas e Definida ⭢ " << vetorClasses << "\n"; total_aninhada++;}
+#line 1386 "syntactic.tab.c"
+    break;
+
+  case 56: /* aninhada: equivalenttoA disjointclasses individuals  */
+#line 162 "syntactic.y"
+                                                    {cout << MAGENTA << "4️⃣ 2️⃣  Classe com descrições aninhadas e Definida ⭢ " << vetorClasses << "\n"; total_aninhada++;}
+#line 1392 "syntactic.tab.c"
+    break;
+
+  case 57: /* aninhada: equivalenttoA disjointclasses  */
+#line 164 "syntactic.y"
+                                        {semanticError('A', yylineno, vetorClasses); errosSemanticos++;}
+#line 1398 "syntactic.tab.c"
+    break;
+
+  case 58: /* aninhada: equivalenttoA individuals  */
+#line 165 "syntactic.y"
+                                    {semanticError('B', yylineno, vetorClasses); errosSemanticos++;}
+#line 1404 "syntactic.tab.c"
+    break;
+
+  case 69: /* enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL  */
 #line 195 "syntactic.y"
-                                                                   {semanticError('A', yylineno, vetorClasses); errosSemanticos++;}
-#line 1408 "syntactic.tab.c"
+                                                    {cout << CYAN << "5️⃣ 2️⃣  Classe Enumerada e Definida ⭢ " << vetorClasses << "\n"; total_enumerada++;}
+#line 1410 "syntactic.tab.c"
     break;
 
-  case 70: /* enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL individuals  */
+  case 70: /* enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL subclassof  */
 #line 196 "syntactic.y"
+                                                              {cout << CYAN << "5️⃣ 2️⃣  Classe Enumerada e Definida ⭢ " << vetorClasses << "\n"; total_enumerada++;}
+#line 1416 "syntactic.tab.c"
+    break;
+
+  case 71: /* enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL subclassof disjointclasses individuals  */
+#line 197 "syntactic.y"
+                                                                                          {cout << CYAN << "5️⃣ 2️⃣  Classe Enumerada e Definida ⭢ " << vetorClasses << "\n"; total_enumerada++;}
+#line 1422 "syntactic.tab.c"
+    break;
+
+  case 72: /* enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL disjointclasses individuals  */
+#line 198 "syntactic.y"
+                                                                               {cout << CYAN << "5️⃣ 2️⃣  Classe Enumerada e Definida ⭢ " << vetorClasses << "\n"; total_enumerada++;}
+#line 1428 "syntactic.tab.c"
+    break;
+
+  case 73: /* enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL disjointclasses  */
+#line 200 "syntactic.y"
+                                                                   {semanticError('A', yylineno, vetorClasses); errosSemanticos++;}
+#line 1434 "syntactic.tab.c"
+    break;
+
+  case 74: /* enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL individuals  */
+#line 201 "syntactic.y"
                                                                {semanticError('B', yylineno, vetorClasses); errosSemanticos++;}
-#line 1414 "syntactic.tab.c"
+#line 1440 "syntactic.tab.c"
     break;
 
-  case 73: /* coberta: EQUIVALENTTO cobertaDescript  */
-#line 205 "syntactic.y"
-                                      {cout << PURPLE  << "6️⃣  2️⃣  Classe Coberta e Definida ⭢ " << vetorClasses << "\n"; total_coberta++;}
-#line 1420 "syntactic.tab.c"
-    break;
-
-  case 74: /* coberta: EQUIVALENTTO cobertaDescript subclassof  */
-#line 206 "syntactic.y"
-                                                  {cout << PURPLE  << "6️⃣  2️⃣  Classe Coberta e Definida ⭢ " << vetorClasses << "\n"; total_coberta++;}
-#line 1426 "syntactic.tab.c"
-    break;
-
-  case 75: /* coberta: EQUIVALENTTO cobertaDescript subclassof disjointclasses individuals  */
-#line 207 "syntactic.y"
-                                                                              {cout << PURPLE  << "6️⃣  2️⃣  Classe Coberta e Definida ⭢ " << vetorClasses << "\n"; total_coberta++;}
-#line 1432 "syntactic.tab.c"
-    break;
-
-  case 76: /* coberta: EQUIVALENTTO cobertaDescript disjointclasses individuals  */
-#line 208 "syntactic.y"
-                                                                   {cout << PURPLE  << "6️⃣  2️⃣  Classe Coberta e Definida ⭢ " << vetorClasses << "\n"; total_coberta++;}
-#line 1438 "syntactic.tab.c"
-    break;
-
-  case 77: /* coberta: EQUIVALENTTO cobertaDescript disjointclasses  */
+  case 77: /* coberta: EQUIVALENTTO cobertaDescript  */
 #line 210 "syntactic.y"
-                                                       {semanticError('A', yylineno, vetorClasses); errosSemanticos++;}
-#line 1444 "syntactic.tab.c"
+                                      {cout << PURPLE  << "6️⃣  2️⃣  Classe Coberta e Definida ⭢ " << vetorClasses << "\n"; total_coberta++;}
+#line 1446 "syntactic.tab.c"
     break;
 
-  case 78: /* coberta: EQUIVALENTTO cobertaDescript individuals  */
+  case 78: /* coberta: EQUIVALENTTO cobertaDescript subclassof  */
 #line 211 "syntactic.y"
+                                                  {cout << PURPLE  << "6️⃣  2️⃣  Classe Coberta e Definida ⭢ " << vetorClasses << "\n"; total_coberta++;}
+#line 1452 "syntactic.tab.c"
+    break;
+
+  case 79: /* coberta: EQUIVALENTTO cobertaDescript subclassof disjointclasses individuals  */
+#line 212 "syntactic.y"
+                                                                              {cout << PURPLE  << "6️⃣  2️⃣  Classe Coberta e Definida ⭢ " << vetorClasses << "\n"; total_coberta++;}
+#line 1458 "syntactic.tab.c"
+    break;
+
+  case 80: /* coberta: EQUIVALENTTO cobertaDescript disjointclasses individuals  */
+#line 213 "syntactic.y"
+                                                                   {cout << PURPLE  << "6️⃣  2️⃣  Classe Coberta e Definida ⭢ " << vetorClasses << "\n"; total_coberta++;}
+#line 1464 "syntactic.tab.c"
+    break;
+
+  case 81: /* coberta: EQUIVALENTTO cobertaDescript disjointclasses  */
+#line 215 "syntactic.y"
+                                                       {semanticError('A', yylineno, vetorClasses); errosSemanticos++;}
+#line 1470 "syntactic.tab.c"
+    break;
+
+  case 82: /* coberta: EQUIVALENTTO cobertaDescript individuals  */
+#line 216 "syntactic.y"
                                                    {semanticError('B', yylineno, vetorClasses); errosSemanticos++;}
-#line 1450 "syntactic.tab.c"
+#line 1476 "syntactic.tab.c"
     break;
 
 
-#line 1454 "syntactic.tab.c"
+#line 1480 "syntactic.tab.c"
 
       default: break;
     }
@@ -1643,13 +1669,14 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 219 "syntactic.y"
+#line 224 "syntactic.y"
 
 
 // Método que exibe os erros semânticos de acordo com o código
 void semanticError(char codigoErro, int yylineno, char * vetorClasses){
 
 	switch (codigoErro){
+		// Códigos de A a E são relacionados a Análise da Precedência dos Operadores
 		case 'A': // Código A: DisjointClasses sem Individuals depois
 			cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  
 			" | DisjointClasses deve preceder Individuals \n❗ É esperado Individuals depois ❗\n";
@@ -1669,6 +1696,19 @@ void semanticError(char codigoErro, int yylineno, char * vetorClasses){
 		case 'E': // Código E: EquivalentTo depois de SubclassOf
 			cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  
 			" | EquivalentTo não deve suceder SubclassOf\n❗ EquivalentTo deve vir ANTES de SubclassOf ❗\n";
+			break;
+		// Códigos F e G são relacionados a Verificação Estática de Tipos por Coerção
+		case 'F': // Código F: depois de um xsd:integer não veio um número inteiro
+			cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  
+			" | Número é ponto flutuante\n❗ É esperado um número inteiro ❗\n";
+			break;
+		case 'G': // Código G: Não tem número entre MIN, MAX, ou EXACTLY e o nome de classe ou tipo de dado
+			cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  
+			" | Entre o operador (min, max ou exactly) e o nome de classe ou tipo de dado *deve haver um número* \n❗ É esperado um número ❗\n";
+			break;
+		// Códigos H e X são relacionados a Verificação Estática de Tipos por Sobrecarregamento
+		case 'H':
+			
 			break;
 	}
 }

@@ -10,6 +10,11 @@ Class: HighCaloriePizza
 
     EquivalentTo:
         Pizza and (hasCaloricContent some xsd:integer[>= 400])
+
+Class: HighCaloriePizzaError
+
+    EquivalentTo:
+        Pizza and (hasCaloricContent some xsd:integer[>= 450.2])
         
 Class: CheesyPizza
 
@@ -30,6 +35,12 @@ Class: InterestingPizza
     EquivalentTo:
     Pizza
      and (hasTopping max 3 PizzaTopping)
+
+Class: InterestingPizzaError
+
+    EquivalentTo:
+    Pizza
+     and (hasTopping exactly PizzaTopping)
 
 Class: CheesyPizza
 

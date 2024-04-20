@@ -1,4 +1,5 @@
 -Instalações necessárias no ambiente Linux:
+
     sudo apt update
     sudo apt upgrade
     sudo apt install g++ gdb
@@ -14,9 +15,11 @@
     Yash - daohong emilio
 
 -Compilar projeto:
+
     ctrl + shift + b
 
 -Execução dos testes: 
+
     ./syntAnalyzer < Tests/test.txt
     ./syntAnalyzer < Tests/test1Primitiva.txt
     ./syntAnalyzer < Tests/test2Definida.txt
@@ -27,10 +30,9 @@
     ./syntAnalyzer < Tests/testeDados.txt
 
 -Observação:
-    Ao executar o projeto com os comandos acima, caso apareça no terminal o seguinte erro:
-    bash: ./syntAnalyzer: Permissão negada
-    
+    Ao executar o projeto com os comandos acima, caso apareça no terminal o seguinte erro: "bash: ./syntAnalyzer: Permissão negada"
     Execute o comando abaixo no terminal e depois tente executar o projeto novamente:
+
     chmod +x syntAnalyzer
 
 -Saída do terminal:
