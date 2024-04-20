@@ -3,6 +3,28 @@ Class: Spiciness
     EquivalentTo:
         {Hot1 , Medium2 , Mild3}
 
+    DisjointClasses:
+        Pizza, PizzaBase, PizzaTopping
+
+    Individuals:
+        CheesyPizza1
+
+Class: SpicinessErrorUm
+
+    EquivalentTo:
+        {Hot1 , Medium2 , Mild3}
+
+    DisjointClasses:
+        Pizza, PizzaBase, PizzaTopping
+
+Class: SpicinessErrorDois
+
+    EquivalentTo:
+        {Hot1 , Medium2 , Mild3}
+
+    Individuals:
+        CheesyPizza1
+
 Class: Week
 
     EquivalentTo:

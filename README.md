@@ -42,3 +42,4 @@
     Classe Enumerada: Número 5 e cor Ciano
     Classe Coberta: Número 6 e cor Roxo
     Erros são de cor Vermelho
+    Alertas são de cor Laranja

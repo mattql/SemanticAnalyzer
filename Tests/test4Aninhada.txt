@@ -1,16 +1,3 @@
-Class: SpicyPizza
-
-EquivalentTo:
-Pizza
-and (hasTopping some (hasSpiciness value Hot))
-
-Class: VegetarianPizza
-
-    EquivalentTo:
-        Pizza
-         and (hasTopping only 
-            (CheeseTopping or VegetableTopping))
-
 Class: Customer
 
     EquivalentTo:
@@ -29,3 +16,46 @@ Class: Customer
         Customer7,
         Customer8,
         Customer9
+
+Class: SpicyPizza
+
+EquivalentTo:
+Pizza
+and (hasTopping some (hasSpiciness value Hot))
+
+Class: SpicyPizzaErrorUm
+
+EquivalentTo:
+Pizza
+and (hasTopping some (hasSpiciness value Hot))
+
+Individuals:
+    CheesyPizza1
+
+Class: VegetarianPizza
+
+    EquivalentTo:
+        Pizza
+         and (hasTopping only 
+            (CheeseTopping or VegetableTopping))
+
+Class: SpicyPizzaErrorDois
+
+EquivalentTo:
+Pizza
+and (hasTopping some (hasSpiciness value Hot))
+
+DisjointClasses:
+    Pizza, PizzaBase, PizzaTopping
+
+Class: SpicyPizzaTeste
+
+EquivalentTo:
+Pizza
+and (hasTopping some (hasSpiciness value Hot))
+
+DisjointClasses:
+    Pizza, PizzaBase, PizzaTopping
+
+Individuals:
+    CheesyPizza1

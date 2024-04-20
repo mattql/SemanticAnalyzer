@@ -1,9 +1,34 @@
+Class: MargheritaPizzaError
+   
+    SubClassOf:
+        NamedPizza,
+        hasTopping some MozzarellaTopping,
+        hasTopping some TomatoTopping,
+        hasTopping only 
+            (MozzarellaTopping or TomatoTopping)
+    
+    Individuals: 
+        MargheritaPizza1,
+        MargheritaPizza2
+
 Class: MargheritaPizza
 
 SubClassOf:
-NamedPizza,
-hasTopping some MozzarellaTopping,
-hasTopping only (MozzarellaTopping)
+    NamedPizza,
+    hasTopping some MozzarellaTopping,
+    hasTopping only (MozzarellaTopping)
+
+Class: MargheritaPizzaErrorDois
+   
+    SubClassOf:
+        NamedPizza,
+        hasTopping some MozzarellaTopping,
+        hasTopping some TomatoTopping,
+        hasTopping only 
+            (MozzarellaTopping or TomatoTopping)
+    
+    DisjointClasses:
+        AmericanaHotPizza, AmericanaPizza, MargheritaPizza, SohoPizza
 
 Class: MargheritaPizza
 

@@ -10,3 +10,34 @@ Class: Sauce
 
     EquivalentTo: Ketchup or Mayo or Mustard or Shoyu
 
+Class: SpicinessDoisTeste
+
+    EquivalentTo: Hot
+
+    DisjointClasses:
+        Pizza, PizzaBase, PizzaTopping
+
+    Individuals:
+        CheesyPizza1
+
+Class: SpicinessDoisTesteErrorUm
+
+    EquivalentTo: Hot
+
+    DisjointClasses:
+        Pizza, PizzaBase, PizzaTopping
+
+Class: SpicinessDoisTesteErrorDois
+
+    EquivalentTo: Hot
+
+    Individuals:
+        CheesyPizza1
+
+Class: Evaluated
+
+EquivalentTo:
+    BrokerServiceProvider or Connector or CoreParticipant
+
+SubClassOf:
+    FunctionalComplex

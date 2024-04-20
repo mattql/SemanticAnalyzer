@@ -1,3 +1,11 @@
+Class: CheesyPizzaError
+
+    SubClassOf:
+        Pizza
+
+    EquivalentTo:
+        Pizza and (hasTopping some CheeseTopping)
+
 Class: HighCaloriePizza
 
     EquivalentTo:

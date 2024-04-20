@@ -7,20 +7,29 @@ extern int yylineno;
 extern char * yytext;
 char vetorClasses[400]; // Vetor para armazenar nomes de Classe
 int isClass = 0; // Saber se é ou não é classe
+
+// Variáveis para controle
 int errosSemanticos = 0; // Total de erros semânticos
+int total_primitiva = 0;
+int total_definida = 0;
+int total_axioma = 0;
+int total_aninhada = 0;
+int total_enumerada = 0;
+int total_coberta = 0;
 
 int yylex(void);
 int yyparse(void);
 void yyerror(const char *);
 
 // Constantes de cores para saída do terminal
-#define RED      "\x1b[31m"
-#define GREEN    "\x1b[32m"
-#define BLUE     "\x1b[34m"
-#define YELLOW   "\x1b[33m"
-#define MAGENTA  "\x1b[35m"
+#define RED      "\x1b[38;5;196m"
+#define GREEN    "\x1b[38;5;46m"
+#define BLUE     "\x1b[38;5;12m"
+#define YELLOW   "\x1b[38;5;226m"
+#define MAGENTA  "\x1b[38;5;165m"
 #define CYAN     "\x1b[36m"
 #define PURPLE   "\x1b[38;5;141m"
+#define ORANGE   "\x1b[38;5;214m"
 #define NOCOLOR  "\x1b[0m"
 %}
 
@@ -41,23 +50,25 @@ class: CLASS IDCLASSE {isClass = 0; strcpy(vetorClasses, yytext);} // Código pa
 	;
 
 // Classifica a Classe em um dos 6 tipos
-options: primitiva {cout << GREEN   << "1️⃣  Classe Primitiva \n";}
-	| definida     {cout << BLUE    << "2️⃣  Classe Definida \n";}
-	| axioma       {cout << YELLOW  << "3️⃣  Classe com axioma de fechamento \n";}
-	| aninhada     {cout << MAGENTA << "4️⃣  Classe com descrições aninhadas \n";}
-	| enumerada    {cout << CYAN    << "5️⃣  Classe Enumerada \n";}
-	| coberta      {cout << PURPLE  << "6️⃣  Classe Coberta \n";}
+options: primitiva
+	| definida
+	| axioma
+	| aninhada
+	| enumerada
+	| coberta
 	|
 	;
 
 // Define como uma classe primitiva deve ser escrita
-primitiva: subclassof 
-	| subclassof disjointclasses individuals 
-	| disjointclasses 
-	| individuals 
-	| subclassof disjointclasses
-	| subclassof individuals
-
+// TODO colocar nome das classes na frente do resultado
+// TODO jogar resultados dentro de um método com switch que irá exibir o erro
+primitiva: subclassof {cout << GREEN << "1️⃣  Classe Primitiva ⭢ " << vetorClasses << "\n"; total_primitiva++;}
+	| subclassof disjointclasses individuals {cout << GREEN << "1️⃣  Classe Primitiva ⭢ " << vetorClasses << "\n"; total_primitiva++;}
+	// Regras abaixo são semanticamente erradas
+	| disjointclasses {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | DisjointClasses não pode existir sozinha \n❗ É esperado SubclassOf antes e Individuals depois ❗\n"; errosSemanticos++;}
+	| individuals {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | Individuals não pode existir sozinho \n❗ É esperado DisjointClasses antes ❗\n"; errosSemanticos++;}
+	| subclassof disjointclasses {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | DisjointClasses deve preceder Individuals \n❗ É esperado Individuals depois ❗\n"; errosSemanticos++;}
+	| subclassof individuals {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | Individuals deve suceder DisjointClasses\n❗ É esperado DisjointClasses antes ❗\n"; errosSemanticos++;}
 	;
 
 // Regras que definem como deve ser um SubclassOf (Token + conteúdo do bloco)
@@ -93,8 +104,12 @@ individualsDescript: INDIVIDNAME
 	;
 
 // Define como uma classe definida deve ser escrita
-definida: equivalenttoD
-	| equivalenttoD individuals
+definida: equivalenttoD {cout << BLUE << "2️⃣  Classe Definida ⭢ " << vetorClasses << "\n"; total_definida++;}
+	| equivalenttoD disjointclasses individuals {cout << BLUE << "2️⃣  Classe Definida ⭢ " << vetorClasses << "\n"; total_definida++;}
+	// Regras abaixo são semanticamente erradas
+	| equivalenttoD disjointclasses {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | DisjointClasses não pode existir sozinha \n❗ É esperado SubclassOf antes e Individuals depois ❗\n"; errosSemanticos++;}
+	| equivalenttoD individuals {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | Individuals deve suceder DisjointClasses\n❗ É esperado DisjointClasses antes ❗\n"; errosSemanticos++;}
+	| subclassof equivalenttoD {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | EquivalentTo não deve suceder SubclassOf\n❗ É esperado DisjointClasses e Individuals após SubclassOf ❗\n"; errosSemanticos++;}
 	;
 
 // Regras que definem como deve ser um EquivalentTo (Token + conteúdo do bloco)
@@ -115,9 +130,11 @@ minmax: MIN
 	;
 
 // Define como uma classe com axioma de fechamento deve ser escrita
-axioma: SUBCLASSOF subclassofAxiomaDescript
-	| SUBCLASSOF subclassofAxiomaDescript disjointclasses
-	| SUBCLASSOF subclassofAxiomaDescript disjointclasses individuals
+axioma: SUBCLASSOF subclassofAxiomaDescript {cout << YELLOW << "3️⃣ 1️⃣  Classe com axioma de fechamento e Primitiva ⭢ " << vetorClasses << "\n"; total_axioma++;}
+	| SUBCLASSOF subclassofAxiomaDescript disjointclasses individuals {cout << YELLOW << "3️⃣ 1️⃣  Classe com axioma de fechamento e Primitiva ⭢ " << vetorClasses << "\n"; total_axioma++;}
+	// Regras abaixo são semanticamente erradas
+	| SUBCLASSOF subclassofAxiomaDescript disjointclasses {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | DisjointClasses deve preceder Individuals \n❗ É esperado Individuals depois ❗\n"; errosSemanticos++;}
+	| SUBCLASSOF subclassofAxiomaDescript individuals {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | Individuals deve suceder DisjointClasses\n❗ É esperado DisjointClasses antes ❗\n"; errosSemanticos++;}
 	;
 
 // Define como deve ser um SubclassOf
@@ -127,11 +144,19 @@ subclassofAxiomaDescript: IDCLASSE SYMBOL IDPROP SOME IDCLASSE SYMBOL IDPROP ONL
 	| IDCLASSE SYMBOL IDPROP SOME IDCLASSE SYMBOL IDPROP SOME IDCLASSE SYMBOL IDPROP ONLY SYMBOL IDCLASSE OR IDCLASSE SYMBOL /* dois */
 	| IDCLASSE SYMBOL IDPROP SOME IDCLASSE SYMBOL IDPROP SOME IDCLASSE SYMBOL IDPROP SOME IDCLASSE SYMBOL IDPROP ONLY SYMBOL IDCLASSE OR IDCLASSE OR IDCLASSE SYMBOL /* três */
 	| IDCLASSE SYMBOL IDPROP SOME IDCLASSE SYMBOL IDPROP SOME IDCLASSE SYMBOL IDPROP SOME IDCLASSE SYMBOL IDPROP SOME IDCLASSE SYMBOL IDPROP ONLY SYMBOL IDCLASSE OR IDCLASSE OR IDCLASSE OR IDCLASSE SYMBOL /* quatro */
+	// Regras semanticamente erradas para declaração do axioma de fechamento ANTES da declaração das triplas
+	//| IDCLASSE SYMBOL IDPROP ONLY SYMBOL IDCLASSE SYMBOL SYMBOL IDPROP SOME IDCLASSE  /* um */ {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | Axioma de fechamento declarado ANTES das triplas existenciais \n❗ É esperado a declaraçao do axioma de fechamento DEPOIS da declaração das triplas existenciais ❗\n"; errosSemanticos++;}
+	//| IDCLASSE SYMBOL IDPROP ONLY SYMBOL IDCLASSE OR IDCLASSE SYMBOL SYMBOL IDPROP SOME IDCLASSE SYMBOL IDPROP SOME IDCLASSE /* dois */ {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | Axioma de fechamento declarado ANTES das triplas existenciais \n❗ É esperado a declaraçao do axioma de fechamento DEPOIS da declaração das triplas existenciais ❗\n"; errosSemanticos++;}
+	//| IDCLASSE SYMBOL IDPROP ONLY SYMBOL IDCLASSE OR IDCLASSE OR IDCLASSE SYMBOL SYMBOL IDPROP SOME IDCLASSE SYMBOL IDPROP SOME IDCLASSE SYMBOL IDPROP SOME IDCLASSE /* três */ {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | Axioma de fechamento declarado ANTES das triplas existenciais \n❗ É esperado a declaraçao do axioma de fechamento DEPOIS da declaração das triplas existenciais ❗\n"; errosSemanticos++;}
+	//| IDCLASSE SYMBOL IDPROP ONLY SYMBOL IDCLASSE OR IDCLASSE OR IDCLASSE OR IDCLASSE SYMBOL SYMBOL IDPROP SOME IDCLASSE SYMBOL IDPROP SOME IDCLASSE SYMBOL IDPROP SOME IDCLASSE SYMBOL IDPROP SOME IDCLASSE /* quatro */ {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | Axioma de fechamento declarado ANTES das triplas existenciais \n❗ É esperado a declaraçao do axioma de fechamento DEPOIS da declaração das triplas existenciais ❗\n"; errosSemanticos++;}
 	;
 
 // Regras que definem como uma classe com descrições aninhadas deve ser escrita
-aninhada: equivalenttoA
-	| equivalenttoA individuals
+aninhada: equivalenttoA {cout << MAGENTA << "4️⃣ 2️⃣  Classe com descrições aninhadas e Definida ⭢ " << vetorClasses << "\n"; total_aninhada++;}
+	| equivalenttoA disjointclasses individuals {cout << MAGENTA << "4️⃣ 2️⃣  Classe com descrições aninhadas e Definida ⭢ " << vetorClasses << "\n"; total_aninhada++;}
+	// Regras abaixo são semanticamente erradas
+	| equivalenttoA disjointclasses {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | DisjointClasses não pode existir sozinha \n❗ É esperado SubclassOf antes e Individuals depois ❗\n"; errosSemanticos++;}
+	| equivalenttoA individuals {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | Individuals não pode existir sozinho \n❗ É esperado DisjointClasses antes ❗\n"; errosSemanticos++;}
 	;
 
 // Define como deve ser um EquivalentTo
@@ -161,7 +186,13 @@ classOrProp: IDCLASSE | IDPROP
 	;
 
 // Regras que definem como uma classe Enumerada deve ser escrita
-enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL
+enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL {cout << CYAN << "5️⃣ 2️⃣  Classe Enumerada e Definida ⭢ " << vetorClasses << "\n"; total_enumerada++;}
+	| EQUIVALENTTO SYMBOL enumInstances SYMBOL subclassof {cout << CYAN << "5️⃣ 2️⃣  Classe Enumerada e Definida ⭢ " << vetorClasses << "\n"; total_enumerada++;}
+	| EQUIVALENTTO SYMBOL enumInstances SYMBOL subclassof disjointclasses individuals {cout << CYAN << "5️⃣ 2️⃣  Classe Enumerada e Definida ⭢ " << vetorClasses << "\n"; total_enumerada++;}
+	| EQUIVALENTTO SYMBOL enumInstances SYMBOL disjointclasses individuals {cout << CYAN << "5️⃣ 2️⃣  Classe Enumerada e Definida ⭢ " << vetorClasses << "\n"; total_enumerada++;}
+	// Regras abaixo são semanticamente erradas
+	| EQUIVALENTTO SYMBOL enumInstances SYMBOL disjointclasses {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | DisjointClasses não pode existir sozinha \n❗ É esperado SubclassOf antes e Individuals depois ❗\n"; errosSemanticos++;}
+	| EQUIVALENTTO SYMBOL enumInstances SYMBOL individuals {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | Individuals não pode existir sozinho \n❗ É esperado DisjointClasses antes ❗\n"; errosSemanticos++;}
 	;
 
 // Dentro do bloco EquivalentTo existe um nome de indivíduo, ou vários separados por vírgula e entre chaves
@@ -170,7 +201,13 @@ enumInstances: INDIVIDNAME
 	;
 
 // Regras que definem como uma classe Coberta deve ser escrita
-coberta: EQUIVALENTTO cobertaDescript
+coberta: EQUIVALENTTO cobertaDescript {cout << PURPLE  << "6️⃣  2️⃣  Classe Coberta e Definida ⭢ " << vetorClasses << "\n"; total_coberta++;}
+	| EQUIVALENTTO cobertaDescript subclassof {cout << PURPLE  << "6️⃣  2️⃣  Classe Coberta e Definida ⭢ " << vetorClasses << "\n"; total_coberta++;}
+	| EQUIVALENTTO cobertaDescript subclassof disjointclasses individuals {cout << PURPLE  << "6️⃣  2️⃣  Classe Coberta e Definida ⭢ " << vetorClasses << "\n"; total_coberta++;}
+	| EQUIVALENTTO cobertaDescript disjointclasses individuals {cout << PURPLE  << "6️⃣  2️⃣  Classe Coberta e Definida ⭢ " << vetorClasses << "\n"; total_coberta++;}
+	// Regras abaixo são semanticamente erradas
+	| EQUIVALENTTO cobertaDescript disjointclasses {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | DisjointClasses não pode existir sozinha \n❗ É esperado SubclassOf antes e Individuals depois ❗\n"; errosSemanticos++;}
+	| EQUIVALENTTO cobertaDescript individuals {cout << RED << "🔴 Erro semântico (linha: " << yylineno << ") | Classe: " << vetorClasses <<  " | Individuals não pode existir sozinho \n❗ É esperado DisjointClasses antes ❗\n"; errosSemanticos++;}
 	;
 
 // Dentro do bloco EquivalentTo existe um nome de classe, ou vários separados por OR
@@ -201,6 +238,28 @@ int main(int argc, char ** argv)
 	}
 
 	yyparse();
+
+	// Tabela com o total de cada tipo de classe e erros semânticos
+	cout << "\n";
+	cout << GREEN << "----------------------------------------------\n";
+	cout << "Total de classes Primitivas: " << total_primitiva << "\n";
+	cout << "----------------------------------------------\n";
+	cout << "Total de classes Definidas: " << total_definida << "\n";
+	cout << "----------------------------------------------\n";
+	cout << "Total de classes com Axioma de Fechamento: " << total_axioma << "\n";
+	cout << "----------------------------------------------\n";
+	cout << "Total de classes com Descrições Aninhadas: " << total_aninhada << "\n";
+	cout << "----------------------------------------------\n";
+	cout << "Total de classes Enumeradas: " << total_enumerada<< "\n";
+	cout << "----------------------------------------------\n";
+	cout << "Total de classes Cobertas: " << total_coberta << "\n";
+	cout << "----------------------------------------------\n";
+	cout << "\n";
+	cout << ORANGE << "------------------------------------\n";
+	cout << "Total de erros Semânticos: " << errosSemanticos << "\n";
+	cout << "------------------------------------\n";
+	cout << NOCOLOR;
+	cout << "\n";
 }
 
 void yyerror(const char * s)
@@ -208,7 +267,7 @@ void yyerror(const char * s)
 	if(isClass == 0){
 	/* mensagem de erro exibe o símbolo que causou erro e o número da linha */
 	cout << RED <<"-----------------------------------------------------------------\n";
-    cout << RED <<"🔴 Erro sintático: símbolo \"" << yytext << "\" (linha " << yylineno << ") |📄 Classe: " << vetorClasses << "|\n";
+    cout << RED <<"🔴 Erro sintático: símbolo \"" << yytext << "\" (linha " << yylineno << ") | Classe: " << vetorClasses << "|\n";
 	cout << RED <<"-----------------------------------------------------------------\n";
 	cout << NOCOLOR;
 	isClass = 1;
