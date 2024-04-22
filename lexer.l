@@ -5,6 +5,7 @@
 using namespace std;
 
 string tipoDado = "";
+string tipoPropriedade = "";
 %}
 
 %option yylineno
@@ -39,7 +40,7 @@ datatype    ("owl:"|"xsd:"|"rdfs:")[a-z]+
 "SubClassOf:"      return SUBCLASSOF;
 "DisjointClasses:" return DISJOINTCLASSES;
 {idclasse}         return IDCLASSE;
-{idprop}           return IDPROP;
+{idprop}           {tipoPropriedade = yytext; return IDPROP;}
 {symbol}           return SYMBOL;
 {individname}      return INDIVIDNAME;
 {datatype}         {tipoDado = yytext; return DATATYPE;}

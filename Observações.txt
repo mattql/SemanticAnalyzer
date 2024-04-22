@@ -1,0 +1,21 @@
+1. Quando a ordem dos blocos de uma classe está organizada com a precedência errada,
+essa classe não entra na contagem para o total de classes daquele tipo. Se o erro semântico
+estiver dentro dos blocos (em erros de coerção), a classe entra na contagem para o total de
+classes porém o erro semântico é exibido normalmente.
+
+2. As propriedades serão contadas para o total de propriedades e classificadas mesmo que haja
+erro semântico na clase.
+
+3. Nos arquivos de teste individuais de cada classe, as classes que contem Error no nome são classes
+adaptadas para testar os erros semânticos, algumas outras estão adaptadas para testar a classe sem
+erros, e o restante (a maioria) são as classes da ontologia de Pizza disponível desde o trabalho da segunda unidade.
+
+4. A saída do terminal é corrida, isso quer dizer que os erros léxicos, sintáticos, semânticos,
+propriedades encontradas e resultados de classe válida estão dispostos na ordem que as classes
+foram lidas da linha 1 até a última linha do arquivo de texto, ou seja, o terminal vai exibindo
+os resultados a medida que o analisador vai lendo cada classe.
+
+5. O arquivo test.txt contém a ontologia de Pizza original que está no PDF do projeto de Análise Sintática.
+
+6. O arquivo testeDados.txt contém a ontologia de Manoel postada no SIGAA porém não foi completamente adaptada
+para esse projeto assim como já estava no Analisador Sintático, então tem mais erros (esperados) do que a de Pizza.
