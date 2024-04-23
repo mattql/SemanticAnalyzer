@@ -1,4 +1,7 @@
--Instalações necessárias no ambiente Linux:
+<h1><b>Instruções para execução do Projeto</b></h1>
+<h3><b>Obs.: Informações sobre a lógica do projeto estão no arquivo Observações.txt</b></h3><hr/>
+
+<b>-Instalações necessárias no ambiente Linux:</b>
 
     sudo apt update
     sudo apt upgrade
@@ -7,18 +10,18 @@
     sudo apt install flex
     sudo apt install bison
 
--Extensões necessárias no VsCode:
-    Pacote C/C++ - Microsoft
-    CMake - twxs
-    Cmake Tools - Microsoft
-    Makefile Tools - Microsoft
-    Yash - daohong emilio
+<b>-Extensões necessárias no VsCode:</b>
+    <br/>Pacote C/C++ - Microsoft<br/>
+    CMake - twxs<br/>
+    Cmake Tools - Microsoft<br/>
+    Makefile Tools - Microsoft<br/>
+    Yash - daohong emilio<hr/>
 
--Compilar projeto:
+<b>-Compilar projeto:</b>
 
     ctrl + shift + b
 
--Execução dos testes: 
+<b>-Execução dos testes:</b>
 
     ./syntAnalyzer < Tests/test.txt
     ./syntAnalyzer < Tests/test1Primitiva.txt
@@ -29,19 +32,20 @@
     ./syntAnalyzer < Tests/test6Coberta.txt
     ./syntAnalyzer < Tests/testeDados.txt
 
--Observação:
-    Ao executar o projeto com os comandos acima, caso apareça no terminal o seguinte erro: "bash: ./syntAnalyzer: Permissão negada"
-    Execute o comando abaixo no terminal e depois tente executar o projeto novamente:
+<hr/> <b>-Observação:</b>
+    Ao executar o projeto com os comandos acima, caso apareça no terminal o seguinte erro:<br/> <pre>"bash: ./syntAnalyzer: Permissão negada"</pre>
+    Execute o comando abaixo no terminal e depois execute o projeto novamente:
 
     chmod +x syntAnalyzer
 
--Saída do terminal:
-    Os 6 tipos de classes estão organizadas da seguinte maneira:
-    Classe primitiva: Número 1 e cor Verde
-    Classe Definida: Número 2 e cor Azul
-    Classe com axioma de fechamento: Número 3 e cor Amarelo
-    Classe com descrições aninhadas: Número 4 e cor Magenta
-    Classe Enumerada: Número 5 e cor Ciano
-    Classe Coberta: Número 6 e cor Roxo
-    Erros são de cor Vermelho
-    Alertas são de cor Laranja
+<hr/> <b>-Saída do terminal:<br/></b>
+    Os 6 tipos de classes estão organizadas da seguinte maneira:<br/>
+    • Classe primitiva: Número 1 e cor <span style="color:#00FF00">Verde</span><br/>
+    • Classe Definida: Número 2 e cor <span style="color:#0000FF">Azul</span><br/>
+    • Classe com axioma de fechamento: Número 3 e cor <span style="color:#FFFF00">Amarelo</span><br/>
+    • Classe com descrições aninhadas: Número 4 e cor <span style="color:#FF00FF">Magenta</span><br/>
+    • Classe Enumerada: Número 5 e cor <span style="color:#00FFFF">Ciano</span><br/>
+    • Classe Coberta: Número 6 e cor <span style="color:#8D008D">Roxo</span><br/><br/>
+    • Tipos de Propriedades são de cor <span style="color:#FFFFFF">Branco</span><br/>
+    • Erros são de cor <span style="color:#FF0000">Vermelho</span><br/>
+    • Alertas são de cor <span style="color:#FFA500">Laranja</span><hr/>

@@ -3,10 +3,10 @@ essa classe não entra na contagem para o total de classes daquele tipo. Se o er
 estiver dentro dos blocos (em erros de coerção), a classe entra na contagem para o total de
 classes porém o erro semântico é exibido normalmente.
 
-2. As propriedades serão contadas para o total de propriedades e classificadas mesmo que haja
-erro semântico na clase.
+2. As propriedades serão contadas para o total de propriedades e classificadas em data ou object
+property mesmo que haja erro semântico na clase.
 
-3. Nos arquivos de teste individuais de cada classe, as classes que contem Error no nome são classes
+3. Nos arquivos de teste individuais de cada classe, as classes que contem "Error" no nome são classes
 adaptadas para testar os erros semânticos, algumas outras estão adaptadas para testar a classe sem
 erros, e o restante (a maioria) são as classes da ontologia de Pizza disponível desde o trabalho da segunda unidade.
 
