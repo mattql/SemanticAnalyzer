@@ -40,12 +40,12 @@
 
 <hr/> <b>-Saída do terminal:<br/></b>
     Os 6 tipos de classes estão organizadas da seguinte maneira:<br/>
-    • Classe primitiva: Número 1 e cor <span style="color:#00FF00">Verde</span><br/>
-    • Classe Definida: Número 2 e cor <span style="color:#0000FF">Azul</span><br/>
-    • Classe com axioma de fechamento: Número 3 e cor <span style="color:#FFFF00">Amarelo</span><br/>
-    • Classe com descrições aninhadas: Número 4 e cor <span style="color:#FF00FF">Magenta</span><br/>
-    • Classe Enumerada: Número 5 e cor <span style="color:#00FFFF">Ciano</span><br/>
-    • Classe Coberta: Número 6 e cor <span style="color:#8D008D">Roxo</span><br/><br/>
-    • Tipos de Propriedades são de cor <span style="color:#FFFFFF">Branco</span><br/>
-    • Erros são de cor <span style="color:#FF0000">Vermelho</span><br/>
-    • Alertas são de cor <span style="color:#FFA500">Laranja</span><hr/>
+    • Classe primitiva: Número 1 e cor <span style="color:green">Verde</span><br/>
+    • Classe Definida: Número 2 e cor <span style="color:blue">Azul</span><br/>
+    • Classe com axioma de fechamento: Número 3 e cor <span style="color:yellow">Amarelo</span><br/>
+    • Classe com descrições aninhadas: Número 4 e cor <span style="color:magenta">Magenta</span><br/>
+    • Classe Enumerada: Número 5 e cor <span style="color:cyan">Ciano</span><br/>
+    • Classe Coberta: Número 6 e cor <span style="color:purple">Roxo</span><br/><br/>
+    • Tipos de Propriedades são de cor <span style="color:white">Branco</span><br/>
+    • Erros são de cor <span style="color:red">Vermelho</span><br/>
+    • Alertas são de cor <span style="color:orange">Laranja</span><hr/>
