@@ -32,7 +32,7 @@
     ./syntAnalyzer < Tests/test6Coberta.txt
     ./syntAnalyzer < Tests/testeDados.txt
 
-<hr/> <b>-Observações:</b>
+<hr/> <b>-Observações:</b><br/>
     Ao executar o projeto com os comandos acima, caso apareça no terminal o seguinte erro:<br/> <pre>"bash: ./syntAnalyzer: Permissão negada"</pre>
     Execute o comando abaixo no terminal e depois execute o projeto novamente:
     <pre>chmod +x syntAnalyzer</pre><hr/>
