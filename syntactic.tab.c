@@ -585,14 +585,14 @@ static const yytype_int8 yytranslate[] =
 static const yytype_uint8 yyrline[] =
 {
        0,    56,    56,    57,    61,    65,    66,    67,    68,    69,
-      70,    71,    75,    76,    78,    79,    80,    81,    85,    89,
-      90,    91,    92,    93,    94,    96,    98,   102,   106,   107,
-     111,   115,   116,   120,   121,   123,   124,   125,   130,   137,
-     138,   140,   142,   143,   147,   147,   147,   151,   152,   154,
-     155,   160,   161,   162,   163,   172,   176,   177,   179,   180,
-     185,   194,   197,   198,   202,   202,   202,   202,   206,   207,
-     211,   212,   213,   214,   216,   217,   221,   222,   226,   227,
-     228,   229,   231,   232,   236,   237
+      70,    71,    75,    76,    79,    80,    81,    82,    86,    90,
+      91,    92,    93,    94,    95,    97,    99,   103,   107,   108,
+     112,   116,   117,   121,   122,   124,   125,   126,   131,   138,
+     139,   141,   143,   144,   148,   148,   148,   152,   153,   155,
+     156,   161,   162,   163,   164,   173,   177,   178,   180,   181,
+     186,   190,   193,   194,   198,   198,   198,   198,   202,   203,
+     207,   208,   209,   210,   212,   213,   217,   218,   222,   223,
+     224,   225,   227,   228,   232,   233
 };
 #endif
 
@@ -1294,265 +1294,265 @@ yyreduce:
     break;
 
   case 14: /* primitiva: disjointclasses  */
-#line 78 "syntactic.y"
+#line 79 "syntactic.y"
                           {semanticError('C', yylineno, vetorClasses); errosSemanticos++;}
 #line 1300 "syntactic.tab.c"
     break;
 
   case 15: /* primitiva: individuals  */
-#line 79 "syntactic.y"
+#line 80 "syntactic.y"
                       {semanticError('D', yylineno, vetorClasses); errosSemanticos++;}
 #line 1306 "syntactic.tab.c"
     break;
 
   case 16: /* primitiva: subclassof disjointclasses  */
-#line 80 "syntactic.y"
+#line 81 "syntactic.y"
                                      {semanticError('A', yylineno, vetorClasses); errosSemanticos++;}
 #line 1312 "syntactic.tab.c"
     break;
 
   case 17: /* primitiva: subclassof individuals  */
-#line 81 "syntactic.y"
+#line 82 "syntactic.y"
                                  {semanticError('B', yylineno, vetorClasses); errosSemanticos++;}
 #line 1318 "syntactic.tab.c"
     break;
 
   case 24: /* subclassofDescript: IDPROP SOME DATATYPE  */
-#line 94 "syntactic.y"
+#line 95 "syntactic.y"
                                {propriedades('D', vetorClasses); total_dataProperty++;}
 #line 1324 "syntactic.tab.c"
     break;
 
   case 25: /* subclassofDescript: IDCLASSE AND SYMBOL IDPROP minmaxexactly CARD DATATYPE SYMBOL  */
-#line 96 "syntactic.y"
+#line 97 "syntactic.y"
                                                                         {propriedades('D', vetorClasses); total_dataProperty++;}
 #line 1330 "syntactic.tab.c"
     break;
 
   case 26: /* subclassofDescript: IDCLASSE AND SYMBOL IDPROP minmaxexactly DATATYPE SYMBOL  */
-#line 98 "syntactic.y"
+#line 99 "syntactic.y"
                                                                    {semanticError('G', yylineno, vetorClasses); propriedades('D', vetorClasses); total_dataProperty++; errosSemanticos++;}
 #line 1336 "syntactic.tab.c"
     break;
 
   case 33: /* definida: equivalenttoD  */
-#line 120 "syntactic.y"
+#line 121 "syntactic.y"
                         {cout << BLUE << "\n2️⃣  Classe Definida ⭢ " << vetorClasses << "\n"; total_definida++;}
 #line 1342 "syntactic.tab.c"
     break;
 
   case 34: /* definida: equivalenttoD disjointclasses individuals  */
-#line 121 "syntactic.y"
+#line 122 "syntactic.y"
                                                     {cout << BLUE << "\n2️⃣  Classe Definida ⭢ " << vetorClasses << "\n"; total_definida++;}
 #line 1348 "syntactic.tab.c"
     break;
 
   case 35: /* definida: equivalenttoD disjointclasses  */
-#line 123 "syntactic.y"
+#line 124 "syntactic.y"
                                         {semanticError('A', yylineno, vetorClasses); errosSemanticos++;}
 #line 1354 "syntactic.tab.c"
     break;
 
   case 36: /* definida: equivalenttoD individuals  */
-#line 124 "syntactic.y"
+#line 125 "syntactic.y"
                                     {semanticError('B', yylineno, vetorClasses); errosSemanticos++;}
 #line 1360 "syntactic.tab.c"
     break;
 
   case 37: /* definida: subclassof equivalenttoD  */
-#line 125 "syntactic.y"
+#line 126 "syntactic.y"
                                    {semanticError('E', yylineno, vetorClasses); errosSemanticos++;}
 #line 1366 "syntactic.tab.c"
     break;
 
   case 39: /* equivalenttoDescript: IDCLASSE AND SYMBOL IDPROP SOME DATATYPE SYMBOL SYMBOL CARD SYMBOL SYMBOL  */
-#line 137 "syntactic.y"
+#line 138 "syntactic.y"
                                                                                   {propriedades('D', vetorClasses); total_dataProperty++;}
 #line 1372 "syntactic.tab.c"
     break;
 
   case 41: /* equivalenttoDescript: IDCLASSE AND SYMBOL IDPROP minmaxexactly CARD IDCLASSE SYMBOL  */
-#line 140 "syntactic.y"
+#line 141 "syntactic.y"
                                                                         {propriedades('O', vetorClasses); total_objectProperty++;}
 #line 1378 "syntactic.tab.c"
     break;
 
   case 42: /* equivalenttoDescript: IDCLASSE AND SYMBOL IDPROP SOME DATATYPE SYMBOL SYMBOL FLOATS SYMBOL SYMBOL  */
-#line 142 "syntactic.y"
+#line 143 "syntactic.y"
                                                                                       {cout << ORANGE << "\nTipo de dado encontrado: '" << tipoDado << "' na classe: " << vetorClasses << NOCOLOR; semanticError('F', yylineno, vetorClasses); propriedades('D', vetorClasses); total_dataProperty++; errosSemanticos++;}
 #line 1384 "syntactic.tab.c"
     break;
 
   case 43: /* equivalenttoDescript: IDCLASSE AND SYMBOL IDPROP minmaxexactly IDCLASSE SYMBOL  */
-#line 143 "syntactic.y"
+#line 144 "syntactic.y"
                                                                    {semanticError('G', yylineno, vetorClasses); propriedades('O', vetorClasses); total_objectProperty++; errosSemanticos++;}
 #line 1390 "syntactic.tab.c"
     break;
 
   case 47: /* axioma: SUBCLASSOF subclassofAxiomaDescript  */
-#line 151 "syntactic.y"
+#line 152 "syntactic.y"
                                             {cout << YELLOW << "\n3️⃣ 1️⃣  Classe com axioma de fechamento e Primitiva ⭢ " << vetorClasses << "\n"; total_axioma++;}
 #line 1396 "syntactic.tab.c"
     break;
 
   case 48: /* axioma: SUBCLASSOF subclassofAxiomaDescript disjointclasses individuals  */
-#line 152 "syntactic.y"
+#line 153 "syntactic.y"
                                                                           {cout << YELLOW << "\n3️⃣ 1️⃣  Classe com axioma de fechamento e Primitiva ⭢ " << vetorClasses << "\n"; total_axioma++;}
 #line 1402 "syntactic.tab.c"
     break;
 
   case 49: /* axioma: SUBCLASSOF subclassofAxiomaDescript disjointclasses  */
-#line 154 "syntactic.y"
+#line 155 "syntactic.y"
                                                               {semanticError('A', yylineno, vetorClasses); errosSemanticos++;}
 #line 1408 "syntactic.tab.c"
     break;
 
   case 50: /* axioma: SUBCLASSOF subclassofAxiomaDescript individuals  */
-#line 155 "syntactic.y"
+#line 156 "syntactic.y"
                                                           {semanticError('B', yylineno, vetorClasses); errosSemanticos++;}
 #line 1414 "syntactic.tab.c"
     break;
 
   case 51: /* subclassofAxiomaDescript: IDCLASSE SYMBOL objectProperty SYMBOL IDPROP ONLY SYMBOL IDCLASSE SYMBOL  */
-#line 160 "syntactic.y"
+#line 161 "syntactic.y"
                                                                                                    {propriedades('O', vetorClasses); total_objectProperty++;}
 #line 1420 "syntactic.tab.c"
     break;
 
   case 52: /* subclassofAxiomaDescript: IDCLASSE SYMBOL objectProperty SYMBOL objectProperty SYMBOL IDPROP ONLY SYMBOL IDCLASSE OR IDCLASSE SYMBOL  */
-#line 161 "syntactic.y"
+#line 162 "syntactic.y"
                                                                                                                      {propriedades('O', vetorClasses); total_objectProperty++;}
 #line 1426 "syntactic.tab.c"
     break;
 
   case 53: /* subclassofAxiomaDescript: IDCLASSE SYMBOL objectProperty SYMBOL objectProperty SYMBOL objectProperty SYMBOL IDPROP ONLY SYMBOL IDCLASSE OR IDCLASSE OR IDCLASSE SYMBOL  */
-#line 162 "syntactic.y"
+#line 163 "syntactic.y"
                                                                                                                                                        {propriedades('O', vetorClasses); total_objectProperty++;}
 #line 1432 "syntactic.tab.c"
     break;
 
   case 54: /* subclassofAxiomaDescript: IDCLASSE SYMBOL objectProperty SYMBOL objectProperty SYMBOL objectProperty SYMBOL objectProperty SYMBOL IDPROP ONLY SYMBOL IDCLASSE OR IDCLASSE OR IDCLASSE OR IDCLASSE SYMBOL  */
-#line 163 "syntactic.y"
+#line 164 "syntactic.y"
                                                                                                                                                                                          {propriedades('O', vetorClasses); total_objectProperty++;}
 #line 1438 "syntactic.tab.c"
     break;
 
   case 55: /* objectProperty: IDPROP SOME IDCLASSE  */
-#line 172 "syntactic.y"
+#line 173 "syntactic.y"
                                      {propriedades('O', vetorClasses); total_objectProperty++;}
 #line 1444 "syntactic.tab.c"
     break;
 
   case 56: /* aninhada: equivalenttoA  */
-#line 176 "syntactic.y"
+#line 177 "syntactic.y"
                         {cout << MAGENTA << "\n4️⃣ 2️⃣  Classe com descrições aninhadas e Definida ⭢ " << vetorClasses << "\n"; total_aninhada++;}
 #line 1450 "syntactic.tab.c"
     break;
 
   case 57: /* aninhada: equivalenttoA disjointclasses individuals  */
-#line 177 "syntactic.y"
+#line 178 "syntactic.y"
                                                     {cout << MAGENTA << "\n4️⃣ 2️⃣  Classe com descrições aninhadas e Definida ⭢ " << vetorClasses << "\n"; total_aninhada++;}
 #line 1456 "syntactic.tab.c"
     break;
 
   case 58: /* aninhada: equivalenttoA disjointclasses  */
-#line 179 "syntactic.y"
+#line 180 "syntactic.y"
                                         {semanticError('A', yylineno, vetorClasses); errosSemanticos++;}
 #line 1462 "syntactic.tab.c"
     break;
 
   case 59: /* aninhada: equivalenttoA individuals  */
-#line 180 "syntactic.y"
+#line 181 "syntactic.y"
                                     {semanticError('B', yylineno, vetorClasses); errosSemanticos++;}
 #line 1468 "syntactic.tab.c"
     break;
 
   case 60: /* equivalenttoA: EQUIVALENTTO IDCLASSE AND SYMBOL IDPROP someOnlyValueOr equivalenttoAnin  */
-#line 185 "syntactic.y"
+#line 186 "syntactic.y"
                                                                                         {propriedades('O', vetorClasses); total_objectProperty++;}
 #line 1474 "syntactic.tab.c"
     break;
 
   case 62: /* aninhadaAux: someOnlyValueOr SYMBOL IDPROP someOnlyValueOr SYMBOL IDPROP someOnlyValueOr INDIVIDNAME SYMBOL SYMBOL aninhadaAux  */
-#line 197 "syntactic.y"
+#line 193 "syntactic.y"
                                                                                                                                {propriedades('O', vetorClasses); total_objectProperty++; total_objectProperty++;}
 #line 1480 "syntactic.tab.c"
     break;
 
   case 69: /* classOrProp: IDPROP  */
-#line 207 "syntactic.y"
+#line 203 "syntactic.y"
                  {propriedades('O', vetorClasses); total_objectProperty++;}
 #line 1486 "syntactic.tab.c"
     break;
 
   case 70: /* enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL  */
-#line 211 "syntactic.y"
+#line 207 "syntactic.y"
                                                     {cout << CYAN << "\n5️⃣ 2️⃣  Classe Enumerada e Definida ⭢ " << vetorClasses << "\n"; total_enumerada++;}
 #line 1492 "syntactic.tab.c"
     break;
 
   case 71: /* enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL subclassof  */
-#line 212 "syntactic.y"
+#line 208 "syntactic.y"
                                                               {cout << CYAN << "\n5️⃣ 2️⃣  Classe Enumerada e Definida ⭢ " << vetorClasses << "\n"; total_enumerada++;}
 #line 1498 "syntactic.tab.c"
     break;
 
   case 72: /* enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL subclassof disjointclasses individuals  */
-#line 213 "syntactic.y"
+#line 209 "syntactic.y"
                                                                                           {cout << CYAN << "\n5️⃣ 2️⃣  Classe Enumerada e Definida ⭢ " << vetorClasses << "\n"; total_enumerada++;}
 #line 1504 "syntactic.tab.c"
     break;
 
   case 73: /* enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL disjointclasses individuals  */
-#line 214 "syntactic.y"
+#line 210 "syntactic.y"
                                                                                {cout << CYAN << "\n5️⃣ 2️⃣  Classe Enumerada e Definida ⭢ " << vetorClasses << "\n"; total_enumerada++;}
 #line 1510 "syntactic.tab.c"
     break;
 
   case 74: /* enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL disjointclasses  */
-#line 216 "syntactic.y"
+#line 212 "syntactic.y"
                                                                    {semanticError('A', yylineno, vetorClasses); errosSemanticos++;}
 #line 1516 "syntactic.tab.c"
     break;
 
   case 75: /* enumerada: EQUIVALENTTO SYMBOL enumInstances SYMBOL individuals  */
-#line 217 "syntactic.y"
+#line 213 "syntactic.y"
                                                                {semanticError('B', yylineno, vetorClasses); errosSemanticos++;}
 #line 1522 "syntactic.tab.c"
     break;
 
   case 78: /* coberta: EQUIVALENTTO cobertaDescript  */
-#line 226 "syntactic.y"
+#line 222 "syntactic.y"
                                       {cout << PURPLE  << "\n6️⃣ 2️⃣  Classe Coberta e Definida ⭢ " << vetorClasses << "\n"; total_coberta++;}
 #line 1528 "syntactic.tab.c"
     break;
 
   case 79: /* coberta: EQUIVALENTTO cobertaDescript subclassof  */
-#line 227 "syntactic.y"
+#line 223 "syntactic.y"
                                                   {cout << PURPLE  << "\n6️⃣ 2️⃣  Classe Coberta e Definida ⭢ " << vetorClasses << "\n"; total_coberta++;}
 #line 1534 "syntactic.tab.c"
     break;
 
   case 80: /* coberta: EQUIVALENTTO cobertaDescript subclassof disjointclasses individuals  */
-#line 228 "syntactic.y"
+#line 224 "syntactic.y"
                                                                               {cout << PURPLE  << "\n6️⃣ 2️⃣  Classe Coberta e Definida ⭢ " << vetorClasses << "\n"; total_coberta++;}
 #line 1540 "syntactic.tab.c"
     break;
 
   case 81: /* coberta: EQUIVALENTTO cobertaDescript disjointclasses individuals  */
-#line 229 "syntactic.y"
+#line 225 "syntactic.y"
                                                                    {cout << PURPLE  << "\n6️⃣ 2️⃣  Classe Coberta e Definida ⭢ " << vetorClasses << "\n"; total_coberta++;}
 #line 1546 "syntactic.tab.c"
     break;
 
   case 82: /* coberta: EQUIVALENTTO cobertaDescript disjointclasses  */
-#line 231 "syntactic.y"
+#line 227 "syntactic.y"
                                                        {semanticError('A', yylineno, vetorClasses); errosSemanticos++;}
 #line 1552 "syntactic.tab.c"
     break;
 
   case 83: /* coberta: EQUIVALENTTO cobertaDescript individuals  */
-#line 232 "syntactic.y"
+#line 228 "syntactic.y"
                                                    {semanticError('B', yylineno, vetorClasses); errosSemanticos++;}
 #line 1558 "syntactic.tab.c"
     break;
@@ -1751,7 +1751,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 240 "syntactic.y"
+#line 236 "syntactic.y"
 
 
 // Método que exibe os erros semânticos de acordo com o código
@@ -1794,9 +1794,9 @@ void semanticError(char codigoErro, int yylineno, char * vetorClasses){
 // Método para exibir as propriedades para a Verificação Estática de Tipos por Sobrecarregamento
 void propriedades(char propriedade, char * vetorClasses){
 
-	if(propriedade == 'D'){ // Código D: Data Property
+	if(propriedade == 'D'){ // Código D: A propriedade é Data Property
 		cout << WHITE << "\n❕ Propriedade encontrada: '" << tipoPropriedade << "' | Tipo: Data Property | Classe: " << vetorClasses << " ❕" << NOCOLOR << "\n";
-	} else if(propriedade == 'O'){ // Código O: Object Property
+	} else if(propriedade == 'O'){ // Código O: A propriedade é Object Property
 		cout << WHITE << "\n❕ Propriedade encontrada: '" << tipoPropriedade << "' Tipo: Object Property | Classe: " << vetorClasses << " ❕" << NOCOLOR << "\n";
 	}
 }
@@ -1823,7 +1823,7 @@ int main(int argc, char ** argv)
 
 	yyparse();
 
-	// Tabela com o total de cada tipo de classe, propriedades e erros semânticos
+	// Tabela de resultados com o total de cada tipo de classe, propriedades e erros semânticos
 	cout << "\n";
 	cout << GREEN2 << "------------------------------------\n";
 	cout << "        |RESULTADOS GERAIS|            \n";

@@ -19,3 +19,8 @@ os resultados a medida que o analisador vai lendo cada classe.
 
 6. O arquivo testeDados.txt contém a ontologia de Manoel postada no SIGAA porém não foi completamente adaptada
 para esse projeto assim como já estava no Analisador Sintático, então tem mais erros (esperados) do que a de Pizza.
+
+7. Códigos comentados são tentativas que não funcionaram
+    Erros conhecidos:
+    • Exemplo 2 da Análise da Precedência dos operadores na regra subclassofAxiomaDescript.
+    Foi a única parte do Analisador Semântico que não consegui fazer funcionar.

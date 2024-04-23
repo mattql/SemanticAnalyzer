@@ -594,8 +594,8 @@ char *yytext;
 #include "syntactic.tab.h"
 using namespace std;
 
-string tipoDado = "";
-string tipoPropriedade = "";
+string tipoDado = ""; // Variável para exibir o token DATATYPE no syntactic.y
+string tipoPropriedade = ""; // Variável para exibir o token IDPROP no syntactic.y
 #line 599 "lex.yy.c"
 #line 600 "lex.yy.c"
 

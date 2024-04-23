@@ -72,9 +72,10 @@ options: primitiva
 	;
 
 // Define como uma classe primitiva deve ser escrita
-primitiva: subclassof {cout << GREEN << "\n1️⃣  Classe Primitiva ⭢ " << vetorClasses << "\n"; total_primitiva++;}
+primitiva: subclassof {cout << GREEN << "\n1️⃣  Classe Primitiva ⭢ " << vetorClasses << "\n"; total_primitiva++;} // Ao achar uma classe válida, exibe na tela e incrementa total de classes daquele tipo, todas as classes seguem esse padrão
 	| subclassof disjointclasses individuals {cout << GREEN << "\n1️⃣  Classe Primitiva ⭢ " << vetorClasses << "\n"; total_primitiva++;}
 	// Regras abaixo são semanticamente erradas
+	// Chamada do método semanticError: É passado o código do erro semântico correspondente, linha e classe do erro, e incrementa total de erros, todas as chamadas desse método seguem esse padrão (explicação dos códigos dentro do método)
 	| disjointclasses {semanticError('C', yylineno, vetorClasses); errosSemanticos++;}
 	| individuals {semanticError('D', yylineno, vetorClasses); errosSemanticos++;}
 	| subclassof disjointclasses {semanticError('A', yylineno, vetorClasses); errosSemanticos++;}
@@ -91,7 +92,7 @@ subclassofDescript: objectProperty SYMBOL subclassofDescript
 	| IDCLASSE SYMBOL objectProperty
 	| IDCLASSE
 	| objectProperty
-	| IDPROP SOME DATATYPE {propriedades('D', vetorClasses); total_dataProperty++;}
+	| IDPROP SOME DATATYPE {propriedades('D', vetorClasses); total_dataProperty++;} // Chamada do método propriedades: é passado o código (tipo) da propriedade e a classe dela, todas as chamadas desse método seguem esse padrão (explicação dos códigos dentro do método)
 	// Coerção: Deve haver um número (CARD) após MIN, MAX ou EXACTLY e antes de tipo de dado
 	| IDCLASSE AND SYMBOL IDPROP minmaxexactly CARD DATATYPE SYMBOL {propriedades('D', vetorClasses); total_dataProperty++;}
 	// Regra abaixo é semanticamente errada
@@ -133,12 +134,12 @@ equivalenttoD: EQUIVALENTTO equivalenttoDescript
 // Definição do que deve ter no conteúdo de um bloco EquivalentTo
 // ** para ser usado na classe Definida **
 equivalenttoDescript: 
-	// Coerção: Se o tipo de dado é integer tem que vir um CARD (inteiro) e não um FLOATS
+	// Coerção: Se o tipo de dado é integer tem que vir um CARD (inteiro) e não um FLOATS (float)
 	IDCLASSE AND SYMBOL IDPROP SOME DATATYPE SYMBOL SYMBOL CARD SYMBOL SYMBOL {propriedades('D', vetorClasses); total_dataProperty++;}
 	| IDCLASSE AND SYMBOL objectProperty SYMBOL
 	// Coerção: Deve haver um número (CARD) após MIN, MAX ou EXACTLY e antes de nome de classe
 	| IDCLASSE AND SYMBOL IDPROP minmaxexactly CARD IDCLASSE SYMBOL {propriedades('O', vetorClasses); total_objectProperty++;}
-	// Regra abaixo é semanticamente errada
+	// Regras abaixo são semanticamente erradas
 	| IDCLASSE AND SYMBOL IDPROP SOME DATATYPE SYMBOL SYMBOL FLOATS SYMBOL SYMBOL {cout << ORANGE << "\nTipo de dado encontrado: '" << tipoDado << "' na classe: " << vetorClasses << NOCOLOR; semanticError('F', yylineno, vetorClasses); propriedades('D', vetorClasses); total_dataProperty++; errosSemanticos++;}
 	| IDCLASSE AND SYMBOL IDPROP minmaxexactly IDCLASSE SYMBOL {semanticError('G', yylineno, vetorClasses); propriedades('O', vetorClasses); total_objectProperty++; errosSemanticos++;}
 	;
@@ -148,7 +149,7 @@ minmaxexactly: MIN | MAX | EXACTLY
 	;
 
 // Define como uma classe com axioma de fechamento deve ser escrita
-axioma: SUBCLASSOF subclassofAxiomaDescript {cout << YELLOW << "\n3️⃣ 1️⃣  Classe com axioma de fechamento e Primitiva ⭢ " << vetorClasses << "\n"; total_axioma++;}
+axioma: SUBCLASSOF subclassofAxiomaDescript {cout << YELLOW << "\n3️⃣ 1️⃣  Classe com axioma de fechamento e Primitiva ⭢ " << vetorClasses << "\n"; total_axioma++;} // Classes que forem Primitivas ou Definidas além da classificação específica, exibe os dois resultados na tela
 	| SUBCLASSOF subclassofAxiomaDescript disjointclasses individuals {cout << YELLOW << "\n3️⃣ 1️⃣  Classe com axioma de fechamento e Primitiva ⭢ " << vetorClasses << "\n"; total_axioma++;}
 	// Regras abaixo são semanticamente erradas
 	| SUBCLASSOF subclassofAxiomaDescript disjointclasses {semanticError('A', yylineno, vetorClasses); errosSemanticos++;}
@@ -183,12 +184,7 @@ aninhada: equivalenttoA {cout << MAGENTA << "\n4️⃣ 2️⃣  Classe com descr
 // Define como deve ser um EquivalentTo
 // ** para ser usado na classe com descrições aninhadas **
 equivalenttoA: EQUIVALENTTO IDCLASSE AND SYMBOL IDPROP someOnlyValueOr equivalenttoAnin {propriedades('O', vetorClasses); total_objectProperty++;}
-	/* | EQUIVALENTTO IDCLASSE AND equivalenttoAninB */
 	;
-
-/* equivalenttoAninB: SYMBOL IDPROP someOnlyValueOr IDCLASSE SYMBOL 
-	| SYMBOL IDPROP someOnlyValueOr DATATYPE SYMBOL
-	; */
 
 // As duas regras abaixo são auxiliares para caso tenham vários aninhamentos
 equivalenttoAnin: SYMBOL classOrProp someOnlyValueOr IDCLASSE SYMBOL SYMBOL aninhadaAux
@@ -279,9 +275,9 @@ void semanticError(char codigoErro, int yylineno, char * vetorClasses){
 // Método para exibir as propriedades para a Verificação Estática de Tipos por Sobrecarregamento
 void propriedades(char propriedade, char * vetorClasses){
 
-	if(propriedade == 'D'){ // Código D: Data Property
+	if(propriedade == 'D'){ // Código D: A propriedade é Data Property
 		cout << WHITE << "\n❕ Propriedade encontrada: '" << tipoPropriedade << "' | Tipo: Data Property | Classe: " << vetorClasses << " ❕" << NOCOLOR << "\n";
-	} else if(propriedade == 'O'){ // Código O: Object Property
+	} else if(propriedade == 'O'){ // Código O: A propriedade é Object Property
 		cout << WHITE << "\n❕ Propriedade encontrada: '" << tipoPropriedade << "' Tipo: Object Property | Classe: " << vetorClasses << " ❕" << NOCOLOR << "\n";
 	}
 }
@@ -308,7 +304,7 @@ int main(int argc, char ** argv)
 
 	yyparse();
 
-	// Tabela com o total de cada tipo de classe, propriedades e erros semânticos
+	// Tabela de resultados com o total de cada tipo de classe, propriedades e erros semânticos
 	cout << "\n";
 	cout << GREEN2 << "------------------------------------\n";
 	cout << "        |RESULTADOS GERAIS|            \n";
