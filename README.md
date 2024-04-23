@@ -32,11 +32,33 @@
     ./syntAnalyzer < Tests/test6Coberta.txt
     ./syntAnalyzer < Tests/testeDados.txt
 
-<hr/> <b>-Observação:</b>
+<hr/> <b>-Observações:</b>
     Ao executar o projeto com os comandos acima, caso apareça no terminal o seguinte erro:<br/> <pre>"bash: ./syntAnalyzer: Permissão negada"</pre>
     Execute o comando abaixo no terminal e depois execute o projeto novamente:
+    <pre>chmod +x syntAnalyzer</pre><hr/>
+    Ao executar no WSL, caso a saida do terminal mostre várias linhas de: "é um token inválido!" como na imagem abaixo:<br/>
+    (A imagem é referente ao trabalho do Analisador Sintático mas o erro é o mesmo)
+    <img src="erro.png">
+    Faça os passos abaixo para corrigir:<br/>
+    (O erro é um provável bug do WSL e não um problema do projeto) 
+    
+    1. Exclua a pasta do projeto
+    2. Execute o comando no terminal do GIT, GIT Bash:
 
-    chmod +x syntAnalyzer
+        git config --global core.autocrlf false
+
+    3. Clone o projeto novamente, compile e execute
+
+
+<hr/>Caso apareça o seguinte erro no terminal:
+
+    "./syntAnalyzer: /lib/x86_64-linux-gnu/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by ./syntAnalyzer)"
+
+Execute os comandos abaixo no terminal e teste a execução novamente:
+
+    sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+    sudo apt-get update
+    sudo apt-get install --only-upgrade libstdc++6
 
 <hr/> <b>-Saída do terminal:<br/></b>
     Os 6 tipos de classes estão organizadas da seguinte maneira:<br/>
